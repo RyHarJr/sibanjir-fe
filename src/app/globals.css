@@ -1,0 +1,19 @@
+
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    font-family: "Public Sans", sans-serif;
+  }
+}
+
+@layer utilities {
+  .hide-scrollbar::-webkit-scrollbar { display: none; }
+  .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  .ambient-shadow-sm { box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+  .ambient-shadow-md { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+}
