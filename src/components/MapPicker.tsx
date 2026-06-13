@@ -77,8 +77,10 @@ export default function MapPicker({ latitude, longitude, onMapClick }: MapPicker
 
         const initialMarker = markerRef.current!;
         initialMarker.addListener("dragend", () => {
-          const pos = (initialMarker as any).position as google.maps.LatLng;
-          onMapClickRef.current(pos.lat(), pos.lng());
+          const pos = (initialMarker as any).position;
+          const lat = typeof pos.lat === "function" ? pos.lat() : pos.lat;
+          const lng = typeof pos.lng === "function" ? pos.lng() : pos.lng;
+          if (lat !== undefined && lng !== undefined) onMapClickRef.current(lat, lng);
         });
       }
 
@@ -100,8 +102,10 @@ export default function MapPicker({ latitude, longitude, onMapClick }: MapPicker
           });
           const clickMarker = markerRef.current!;
           clickMarker.addListener("dragend", () => {
-            const pos = (clickMarker as any).position as google.maps.LatLng;
-            onMapClickRef.current(pos.lat(), pos.lng());
+            const pos = (clickMarker as any).position;
+            const lat = typeof pos.lat === "function" ? pos.lat() : pos.lat;
+            const lng = typeof pos.lng === "function" ? pos.lng() : pos.lng;
+            if (lat !== undefined && lng !== undefined) onMapClickRef.current(lat, lng);
           });
         }
       });

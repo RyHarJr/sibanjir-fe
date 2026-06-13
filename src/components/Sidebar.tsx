@@ -10,8 +10,6 @@ const NAV_ITEMS = [
   { key: "buat-laporan", href: "/buat-laporan", icon: "add_box",       label: "Buat Laporan" },
   { key: "rute",         href: "/rute",         icon: "route",         label: "Safe Route" },
   { key: "cuaca",        href: "/cuaca",        icon: "partly_cloudy_day", label: "Info Cuaca" },
-  { key: "notifikasi",   href: "/notifikasi",   icon: "notifications", label: "Notifikasi" },
-  { key: "profil",       href: "/profil",       icon: "person",        label: "Profil" },
 ] as const;
 
 interface SidebarProps {
@@ -30,7 +28,7 @@ export default function Sidebar({ collapsed }: SidebarProps) {
     >
       {/* Nav items */}
       <nav className="flex-1 overflow-y-auto py-3 flex flex-col gap-1 px-2">
-        {NAV_ITEMS.map((item) => {
+        {(user ? NAV_ITEMS : NAV_ITEMS.filter(i => i.key !== "buat-laporan")).map((item) => {
           const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
           return (
             <Link

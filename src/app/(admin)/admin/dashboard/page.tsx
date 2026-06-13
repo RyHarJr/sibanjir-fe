@@ -93,7 +93,7 @@ export default function AdminDashboard() {
         <section className="bg-error-container text-on-error-container rounded-xl p-md flex items-start gap-3 ambient-shadow-sm">
           <span className="material-symbols-outlined text-[32px] mt-1 text-error">emergency</span>
           <div className="flex-1">
-            <h3 className="font-bold text-label-bold tracking-wider uppercase mb-1 flex items-center gap-2">
+            <h3 className="font-bold text-label-bold tracking-wider uppercase mb-1 flex flex-wrap items-center gap-2">
               Laporan Paling Kritis (Terdalam)
               <span className="bg-error text-white px-2 py-0.5 rounded text-[10px] uppercase font-bold">{stats.deepestReport.waterDepthCm}cm</span>
             </h3>

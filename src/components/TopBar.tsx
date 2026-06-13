@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { useAuth } from "@/lib/AuthContext"
 import { api } from "@/lib/api"
 
@@ -13,7 +14,10 @@ interface TopBarProps {
 
 export default function TopBar({ collapsed, onToggle, title = "Palembang Siaga Banjir" }: TopBarProps) {
   const { user } = useAuth()
+  const pathname = usePathname()
   const [notifDot, setNotifDot] = useState(false)
+
+  const isAdminPage = pathname?.startsWith("/admin")
 
   useEffect(() => {
     if (!user) return
@@ -49,13 +53,28 @@ export default function TopBar({ collapsed, onToggle, title = "Palembang Siaga B
 
       {/* Right — notif + profile */}
       <div className="flex items-center gap-1 px-4">
-        <Link href="/notifikasi" className="p-2 rounded-full hover:bg-surface-container transition-colors text-on-surface-variant relative">
-          <span className="material-symbols-outlined text-[22px]">notifications</span>
-          {notifDot && <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full" />}
-        </Link>
-        <Link href="/profil" className="p-2 rounded-full hover:bg-surface-container transition-colors text-on-surface-variant">
-          <span className="material-symbols-outlined text-[22px]">account_circle</span>
-        </Link>
+        {user && (
+          <>
+            {user.role === "admin" && (
+              <Link 
+                href={isAdminPage ? "/dashboard" : "/admin/dashboard"} 
+                className="p-2 rounded-full hover:bg-surface-container transition-colors text-on-surface-variant relative"
+                title={isAdminPage ? "Kembali ke Aplikasi Publik" : "Masuk Panel Admin"}
+              >
+                <span className="material-symbols-outlined text-[22px]">
+                  {isAdminPage ? "public" : "admin_panel_settings"}
+                </span>
+              </Link>
+            )}
+            <Link href="/notifikasi" className="p-2 rounded-full hover:bg-surface-container transition-colors text-on-surface-variant relative" title="Notifikasi">
+              <span className="material-symbols-outlined text-[22px]">notifications</span>
+              {notifDot && <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full" />}
+            </Link>
+            <Link href="/profil" className="p-2 rounded-full hover:bg-surface-container transition-colors text-on-surface-variant" title="Profil">
+              <span className="material-symbols-outlined text-[22px]">account_circle</span>
+            </Link>
+          </>
+        )}
       </div>
     </header>
   )

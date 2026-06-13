@@ -6,6 +6,8 @@ import Image from "next/image";
 import BottomNav from "@/components/BottomNav";
 import DashboardMapClient from "@/components/DashboardMapClient";
 import { api, FloodReport, timeAgo, severityColor } from "@/lib/api";
+import { Popover, PopoverButton, PopoverPanel, Transition } from '@headlessui/react';
+import { Fragment } from 'react';
 
 export default function Dashboard() {
   const [reports, setReports] = useState<FloodReport[]>([]);
@@ -96,79 +98,73 @@ export default function Dashboard() {
         {/* Map */}
         <section className="bg-surface-container-lowest rounded-xl ambient-shadow-sm border border-outline-variant relative overflow-hidden">
           {/* Map filter bar */}
-          <div className="flex flex-wrap items-center gap-2 px-4 py-3 border-b border-outline-variant bg-surface-container-low/50">
+          <div className="flex flex-wrap items-center gap-2 px-4 py-3 border-b border-outline-variant bg-surface-container-low/50 relative z-50">
             <div className="flex items-center gap-2 mr-auto">
               <div className="w-3 h-3 rounded-full bg-error animate-pulse" />
               <span className="text-label-bold font-bold text-on-surface">Live Map</span>
               {hasFilter && (
-                <span className="text-body-sm text-on-surface-variant ml-1">
+                <span className="text-body-sm text-on-surface-variant ml-1 hidden sm:inline">
                   — {dateFrom && dateTo ? `${dateFrom} s/d ${dateTo}` : dateFrom ? `Dari ${dateFrom}` : `Sampai ${dateTo}`}
                 </span>
               )}
             </div>
-            <div className="flex items-center gap-2 flex-wrap">
-              {/* Quick range buttons */}
-              <button
-                onClick={() => setRange(today, today)}
-                className={`px-3 py-1.5 rounded-lg text-body-sm font-medium border transition-colors ${
-                  dateFrom === today && dateTo === today
-                    ? "bg-primary text-on-primary border-primary"
-                    : "bg-surface text-on-surface-variant border-outline-variant hover:bg-surface-container"
-                }`}
-              >
-                Hari Ini
-              </button>
-              <button
-                onClick={() => setRange(daysAgo(7), today)}
-                className={`px-3 py-1.5 rounded-lg text-body-sm font-medium border transition-colors ${
-                  dateFrom === daysAgo(7) && dateTo === today
-                    ? "bg-primary text-on-primary border-primary"
-                    : "bg-surface text-on-surface-variant border-outline-variant hover:bg-surface-container"
-                }`}
-              >
-                7 Hari
-              </button>
-              <button
-                onClick={() => setRange(daysAgo(30), today)}
-                className={`px-3 py-1.5 rounded-lg text-body-sm font-medium border transition-colors ${
-                  dateFrom === daysAgo(30) && dateTo === today
-                    ? "bg-primary text-on-primary border-primary"
-                    : "bg-surface text-on-surface-variant border-outline-variant hover:bg-surface-container"
-                }`}
-              >
-                30 Hari
-              </button>
 
-              {/* Date range inputs */}
-              <div className="flex items-center gap-1.5">
-                <input
-                  type="date"
-                  value={dateFrom}
-                  onChange={(e) => setDateFrom(e.target.value)}
-                  max={dateTo || today}
-                  className="px-2.5 py-1.5 rounded-lg text-body-sm border border-outline-variant bg-surface text-on-surface focus:border-primary focus:ring-1 ring-primary outline-none w-[140px]"
-                />
-                <span className="text-on-surface-variant text-body-sm">—</span>
-                <input
-                  type="date"
-                  value={dateTo}
-                  onChange={(e) => setDateTo(e.target.value)}
-                  min={dateFrom || undefined}
-                  max={today}
-                  className="px-2.5 py-1.5 rounded-lg text-body-sm border border-outline-variant bg-surface text-on-surface focus:border-primary focus:ring-1 ring-primary outline-none w-[140px]"
-                />
-              </div>
+            <Popover className="relative shrink-0 flex items-center">
+              {({ open }) => (
+                <>
+                  <PopoverButton
+                    className={`p-2 rounded-full flex items-center justify-center transition-all outline-none focus:outline-none relative ${
+                      hasFilter || open ? "bg-primary-container text-on-primary-container shadow-sm" : "bg-surface border border-outline-variant text-on-surface-variant hover:bg-surface-variant"
+                    }`}
+                    title="Filter Tanggal"
+                  >
+                    <span className="material-symbols-outlined text-[20px] transition-transform">
+                      {hasFilter ? 'filter_alt' : 'more_vert'}
+                    </span>
+                    {hasFilter && <span className="absolute top-0 right-0 w-2.5 h-2.5 bg-error rounded-full border-2 border-white" />}
+                  </PopoverButton>
 
-              {hasFilter && (
-                <button
-                  onClick={() => { setDateFrom(""); setDateTo(""); }}
-                  className="px-3 py-1.5 rounded-lg text-body-sm font-medium border border-outline-variant bg-surface text-error hover:bg-error-container transition-colors flex items-center gap-1"
-                >
-                  <span className="material-symbols-outlined text-[16px]">close</span>
-                  Reset
-                </button>
+                  <Transition
+                    as={Fragment}
+                    enter="transition ease-out duration-200"
+                    enterFrom="opacity-0 translate-y-1 scale-95"
+                    enterTo="opacity-100 translate-y-0 scale-100"
+                    leave="transition ease-in duration-150"
+                    leaveFrom="opacity-100 translate-y-0 scale-100"
+                    leaveTo="opacity-0 translate-y-1 scale-95"
+                  >
+                  <PopoverPanel className="absolute right-0 top-full mt-3 w-[300px] sm:w-[360px] bg-surface rounded-2xl shadow-xl border border-outline-variant p-4 z-50 origin-top-right ring-1 ring-black ring-opacity-5">
+                      <div className="flex flex-col gap-3">
+                        <h3 className="text-h3 font-bold text-on-surface flex items-center gap-2 border-b border-outline-variant/30 pb-2">
+                          <span className="material-symbols-outlined text-[18px] text-primary">calendar_month</span>
+                          Rentang Waktu Peta
+                        </h3>
+                        
+                        <div className="grid grid-cols-3 gap-2">
+                          <button onClick={() => setRange(today, today)} className={`py-2 rounded-lg text-[13px] font-semibold border transition-colors ${dateFrom === today && dateTo === today ? "bg-primary text-on-primary border-primary shadow-sm" : "bg-surface text-on-surface border-outline-variant hover:bg-surface-container"}`}>Hari Ini</button>
+                          <button onClick={() => setRange(daysAgo(7), today)} className={`py-2 rounded-lg text-[13px] font-semibold border transition-colors ${dateFrom === daysAgo(7) && dateTo === today ? "bg-primary text-on-primary border-primary shadow-sm" : "bg-surface text-on-surface border-outline-variant hover:bg-surface-container"}`}>7 Hari</button>
+                          <button onClick={() => setRange(daysAgo(30), today)} className={`py-2 rounded-lg text-[13px] font-semibold border transition-colors ${dateFrom === daysAgo(30) && dateTo === today ? "bg-primary text-on-primary border-primary shadow-sm" : "bg-surface text-on-surface border-outline-variant hover:bg-surface-container"}`}>30 Hari</button>
+                        </div>
+                        
+                        <div className="flex flex-col gap-2 mt-2">
+                          <label className="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Kustom Waktu</label>
+                          <div className="flex flex-col sm:flex-row items-center gap-2">
+                            <input type="date" value={dateFrom} onChange={e => setDateFrom(e.target.value)} max={dateTo || today} className="w-full sm:flex-1 px-2.5 py-2 rounded-lg text-body-sm border border-outline-variant bg-surface text-on-surface focus:border-primary outline-none" />
+                            <span className="text-on-surface-variant hidden sm:block">—</span>
+                            <input type="date" value={dateTo} onChange={e => setDateTo(e.target.value)} min={dateFrom || undefined} max={today} className="w-full sm:flex-1 px-2.5 py-2 rounded-lg text-body-sm border border-outline-variant bg-surface text-on-surface focus:border-primary outline-none" />
+                          </div>
+                          {hasFilter && (
+                            <button onClick={() => { setDateFrom(""); setDateTo(""); }} className="mt-2 w-full py-2 rounded-lg text-label-bold font-bold bg-error/10 text-error hover:bg-error-container transition-colors flex items-center justify-center gap-1 border border-error/20">
+                              <span className="material-symbols-outlined text-[16px]">close</span> Reset Filter
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    </PopoverPanel>
+                  </Transition>
+                </>
               )}
-            </div>
+            </Popover>
           </div>
           <div className="relative h-[420px] md:h-[560px] w-full">
             <DashboardMapClient dateFrom={dateFrom || undefined} dateTo={dateTo || undefined} />

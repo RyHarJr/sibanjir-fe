@@ -15,8 +15,8 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       />
       <Sidebar collapsed={collapsed} />
       <div
-        className={`flex-1 flex flex-col min-h-screen pt-16 transition-all duration-300 ${
-          collapsed ? "md:ml-[72px]" : "md:ml-[240px]"
+        className={`flex-1 flex flex-col min-w-0 min-h-screen pt-16 transition-all duration-300 ${
+           collapsed ? "md:ml-[72px]" : "md:ml-[240px]"
         }`}
       >
         {children}

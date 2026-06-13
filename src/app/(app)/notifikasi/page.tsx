@@ -114,7 +114,7 @@ export default function Notifikasi() {
           )}
         </div>
       </main>
-      <BottomNav active="laporan" />
+      <BottomNav />
     </div>
   );
 }

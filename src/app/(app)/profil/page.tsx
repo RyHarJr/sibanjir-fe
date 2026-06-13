@@ -31,9 +31,12 @@ export default function ProfilPengguna() {
       ]).then(([me, reps]) => {
         setProfile(me.data);
         setReports(reps.data);
-      }).catch(console.error).finally(() => setLoading(false));
+      }).catch((err) => {
+        console.error("Failed to load profile:", err);
+        logout();
+      }).finally(() => setLoading(false));
     }
-  }, [authLoading, authUser, router]);
+  }, [authLoading, authUser, router, logout]);
 
   if (loading || authLoading) {
     return (
@@ -98,16 +101,21 @@ export default function ProfilPengguna() {
           </div>
 
           {/* Stats */}
-          <div className="md:col-span-4 grid grid-cols-2 gap-md">
-            <div className="bg-surface-container-lowest rounded-xl p-md shadow-card border border-outline-variant flex flex-col justify-center items-center text-center space-y-xs">
-              <span className="material-symbols-outlined text-primary text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>assignment</span>
-              <span className="text-h2 font-bold text-on-surface">{profile._count.reports}</span>
-              <span className="text-body-sm text-on-surface-variant">Laporan</span>
+          <div className="md:col-span-4 grid grid-cols-3 gap-sm md:gap-md">
+            <div className="bg-surface-container-lowest rounded-xl p-sm md:p-md shadow-card border border-outline-variant flex flex-col justify-center items-center text-center space-y-xs">
+              <span className="material-symbols-outlined text-primary text-2xl md:text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>assignment</span>
+              <span className="text-h3 md:text-h2 font-bold text-on-surface">{profile._count.reports}</span>
+              <span className="text-body-sm text-on-surface-variant max-md:text-[10px]">Laporan</span>
             </div>
-            <div className="bg-surface-container-lowest rounded-xl p-md shadow-card border border-outline-variant flex flex-col justify-center items-center text-center space-y-xs">
-              <span className="material-symbols-outlined text-tertiary text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>military_tech</span>
-              <span className="text-h2 font-bold text-on-surface">{profile.reputationScore}</span>
-              <span className="text-body-sm text-on-surface-variant">Skor Reputasi</span>
+            <div className="bg-surface-container-lowest rounded-xl p-sm md:p-md shadow-card border border-outline-variant flex flex-col justify-center items-center text-center space-y-xs">
+              <span className="material-symbols-outlined text-secondary text-2xl md:text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
+              <span className="text-h3 md:text-h2 font-bold text-on-surface">{profile._count.verifications}</span>
+              <span className="text-body-sm text-on-surface-variant max-md:text-[10px]">Verifikasi</span>
+            </div>
+            <div className="bg-surface-container-lowest rounded-xl p-sm md:p-md shadow-card border border-outline-variant flex flex-col justify-center items-center text-center space-y-xs">
+              <span className="material-symbols-outlined text-tertiary text-2xl md:text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>military_tech</span>
+              <span className="text-h3 md:text-h2 font-bold text-on-surface">{profile.reputationScore}</span>
+              <span className="text-body-sm text-on-surface-variant max-md:text-[10px]">Reputasi</span>
             </div>
           </div>
         </div>
