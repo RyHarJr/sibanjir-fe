@@ -85,6 +85,12 @@ export const api = {
       { method: "POST", body: JSON.stringify({ vote, comment }) }
     ),
 
+  adminVerifyReport: (id: number | string, action: "verify" | "reject") =>
+    request<{ success: boolean; data: FloodReport }>(`/reports/${id}/admin-verify`, {
+      method: "POST",
+      body: JSON.stringify({ action }),
+    }),
+
   updateReport: (id: number | string, body: { waterDepthCm: number; status: string; description?: string }) =>
     request<{ success: boolean }>(`/reports/${id}/update`, {
       method: "POST",
@@ -158,6 +164,22 @@ export const api = {
       highestRiskDistrict: highestZone?.districtName ?? "—",
     };
   },
+
+  // ── Users (Admin) ─────────────────────────────────────────────────────
+  getUsers: () => 
+    request<{ success: boolean; data: (User & { _count: { reports: number, verifications: number } })[] }>("/users"),
+    
+  updateUserRole: (id: number | string, role: "admin" | "user") =>
+    request<{ success: boolean; data: User }>(`/users/${id}/role`, {
+      method: "PATCH",
+      body: JSON.stringify({ role })
+    }),
+
+  // ── BMKG Weather ──────────────────────────────────────────────────────
+  getWeather: (adm4?: string) => {
+    const q = adm4 ? `?adm4=${adm4}` : "";
+    return request<{ success: boolean; data: WeatherData }>(`/weather${q}`);
+  }
 };
 
 // ── Types ────────────────────────────────────────────────────────────────
@@ -325,6 +347,23 @@ export interface AdminStats {
   deepestReport?: FloodReport & { district?: District };
   recentReports: FloodReport[];
   byDistrict: { districtId: number; _avg: { waterDepthCm: number }; _count: { id: number } }[];
+}
+
+export interface WeatherForecast {
+  datetime: string;
+  utc_datetime: string;
+  weatherCode: string;
+  weatherDesc: string;
+  humidity: number | null;
+  temp: number | null;
+  image: string;
+}
+
+export interface WeatherData {
+  city: string;
+  domain: string;
+  kecamatan?: string;
+  forecasts: WeatherForecast[];
 }
 
 // ── Helpers ──────────────────────────────────────────────────────────────

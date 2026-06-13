@@ -1,12 +1,13 @@
 "use client";
 import Link from "next/link";
 
-export default function BottomNav({ active }: { active: "dashboard" | "laporan" | "buat" | "rute" | "profil" }) {
+export default function BottomNav({ active }: { active: "dashboard" | "laporan" | "buat" | "rute" | "cuaca" | "profil" }) {
   const items = [
     { key: "dashboard", icon: "map", label: "Dashboard", href: "/dashboard" },
     { key: "laporan", icon: "view_headline", label: "Laporan", href: "/laporan" },
     { key: "buat", icon: "add_box", label: "Buat", href: "/buat-laporan" },
     { key: "rute", icon: "route", label: "Rute", href: "/rute" },
+    { key: "cuaca", icon: "partly_cloudy_day", label: "Cuaca", href: "/cuaca" },
     { key: "profil", icon: "person", label: "Profil", href: "/profil" },
   ] as const;
 

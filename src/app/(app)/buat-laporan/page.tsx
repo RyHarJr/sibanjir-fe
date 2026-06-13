@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import { api, District } from "@/lib/api";
 import { useAuth } from "@/lib/AuthContext";
 import BottomNav from "@/components/BottomNav";
+import { Select } from "@/components/ui/Select";
 import type { MapPickerProps } from "@/components/MapPicker";
 
 // Dynamic import to avoid SSR issues with Leaflet
@@ -237,10 +238,12 @@ export default function BuatLaporan() {
               </div>
               <div>
                 <label className="text-label-bold font-bold text-on-surface-variant block mb-1">Kecamatan</label>
-                <select value={form.districtId} onChange={e => setForm({...form, districtId: e.target.value})} className="w-full p-3 rounded-lg border border-outline-variant bg-surface-container-lowest focus:border-primary focus:ring-1 focus:ring-primary outline-none text-body-md appearance-none">
-                  <option value="">Pilih kecamatan...</option>
-                  {districts.map(d => <option key={d.id} value={d.id}>{d.name}</option>)}
-                </select>
+                <Select
+                  value={String(form.districtId || "")}
+                  onChange={val => setForm({...form, districtId: val})}
+                  placeholder="Pilih kecamatan..."
+                  options={districts.map(d => ({ value: String(d.id), label: d.name }))}
+                />
               </div>
             </div>
           </section>
@@ -254,10 +257,12 @@ export default function BuatLaporan() {
             <div className="p-4 space-y-6">
               <div>
                 <label className="text-label-bold font-bold text-on-surface-variant block mb-2">Tinggi Air</label>
-                <select value={form.waterDepthCm} onChange={e => setForm({...form, waterDepthCm: Number(e.target.value)})} className="w-full p-3 rounded-lg border border-outline-variant bg-surface-container-lowest focus:border-primary focus:ring-1 focus:ring-primary outline-none text-body-md appearance-none">
-                  <option value={0} disabled>Pilih estimasi tinggi air...</option>
-                  {WATER_DEPTHS.map(d => <option key={d.value} value={d.value}>{d.label}</option>)}
-                </select>
+                <Select
+                  value={String(form.waterDepthCm || "")}
+                  onChange={val => setForm({...form, waterDepthCm: Number(val)})}
+                  placeholder="Pilih estimasi tinggi air..."
+                  options={WATER_DEPTHS.map(d => ({ value: String(d.value), label: d.label }))}
+                />
               </div>
               <div>
                 <label className="text-label-bold font-bold text-on-surface-variant block mb-2">Akses Kendaraan</label>

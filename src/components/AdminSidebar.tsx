@@ -5,29 +5,31 @@ import { usePathname } from "next/navigation";
 import { useAuth } from "@/lib/AuthContext";
 
 const NAV_ITEMS = [
-  { key: "dashboard",    href: "/dashboard",   icon: "map",           label: "Dashboard" },
-  { key: "laporan",      href: "/laporan",      icon: "view_headline", label: "Feed Laporan" },
-  { key: "buat-laporan", href: "/buat-laporan", icon: "add_box",       label: "Buat Laporan" },
-  { key: "rute",         href: "/rute",         icon: "route",         label: "Safe Route" },
-  { key: "cuaca",        href: "/cuaca",        icon: "partly_cloudy_day", label: "Info Cuaca" },
-  { key: "notifikasi",   href: "/notifikasi",   icon: "notifications", label: "Notifikasi" },
-  { key: "profil",       href: "/profil",       icon: "person",        label: "Profil" },
+  { key: "dashboard", href: "/admin/dashboard", icon: "dashboard", label: "Dashboard" },
+  { key: "laporan", href: "/admin/laporan", icon: "assignment", label: "Kelola Laporan" },
+  { key: "pengguna", href: "/admin/pengguna", icon: "group", label: "Kelola Pengguna" },
 ] as const;
 
-interface SidebarProps {
+interface AdminSidebarProps {
   collapsed: boolean;
 }
 
-export default function Sidebar({ collapsed }: SidebarProps) {
+export default function AdminSidebar({ collapsed }: AdminSidebarProps) {
   const pathname = usePathname();
   const { user, logout } = useAuth();
 
   return (
     <aside
-      className={`hidden md:flex flex-col fixed left-0 top-16 h-[calc(100vh-4rem)] z-40 bg-white border-r border-outline-variant transition-all duration-300 ease-in-out ${
+      className={`hidden md:flex flex-col fixed left-0 top-16 h-[calc(100vh-4rem)] z-40 bg-surface border-r border-outline-variant transition-all duration-300 ease-in-out ${
         collapsed ? "w-[72px]" : "w-[240px]"
       }`}
     >
+      <div className="px-4 py-3 flex-shrink-0 border-b border-outline-variant">
+        <span className={`font-bold text-primary text-[12px] tracking-wider uppercase transition-opacity ${collapsed ? "opacity-0 hidden" : "opacity-100"}`}>
+          Admin Panel
+        </span>
+      </div>
+
       {/* Nav items */}
       <nav className="flex-1 overflow-y-auto py-3 flex flex-col gap-1 px-2">
         {NAV_ITEMS.map((item) => {
@@ -63,17 +65,7 @@ export default function Sidebar({ collapsed }: SidebarProps) {
       </nav>
 
       {/* User card */}
-      <div className="border-t border-outline-variant p-3 flex-shrink-0 flex flex-col gap-2">
-        {user?.role === "admin" && (
-          <Link
-            href="/admin/dashboard"
-            title={collapsed ? "Admin Panel" : undefined}
-            className={`flex items-center gap-3 px-3 py-2 rounded-xl bg-surface-container text-on-surface-variant text-[13px] font-semibold hover:bg-primary-container hover:text-on-primary-container transition-colors ${collapsed ? "justify-center" : ""}`}
-          >
-            <span className="material-symbols-outlined text-[18px]">admin_panel_settings</span>
-            {!collapsed && "Admin Panel"}
-          </Link>
-        )}
+      <div className="border-t border-outline-variant p-3 flex-shrink-0">
         {user ? (
           <div className={`flex items-center gap-3 ${collapsed ? "justify-center" : ""}`}>
             <div className="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold text-[13px] flex-shrink-0">

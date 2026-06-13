@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import BottomNav from "@/components/BottomNav";
 import { api, FloodReport, timeAgo } from "@/lib/api";
+import { toast } from "react-hot-toast";
 
 type SortType = "latest" | "deepest" | "confidence";
 
@@ -56,8 +57,9 @@ export default function FeedLaporan() {
     try {
       await api.verifyReport(id, vote);
       load(sort, dateFrom, dateTo);
+      toast.success("Berhasil memberikan vote");
     } catch (e: unknown) {
-      alert(e instanceof Error ? e.message : "Gagal");
+      toast.error(e instanceof Error ? e.message : "Gagal");
     } finally {
       setVoting(v => ({ ...v, [id]: false }));
     }

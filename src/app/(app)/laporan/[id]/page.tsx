@@ -7,6 +7,7 @@ import Link from "next/link";
 import BottomNav from "@/components/BottomNav";
 import { api, FloodReportDetail, timeAgo, roadAccessLabel } from "@/lib/api";
 import { useAuth } from "@/lib/AuthContext";
+import { toast } from "react-hot-toast";
 
 const STATUS_LABEL: Record<string, string> = {
   active: "Aktif", surging: "Meningkat", receded: "Sudah Surut",
@@ -56,8 +57,9 @@ export default function DetailLaporan() {
     try {
       await api.verifyReport(id, vote);
       await fetchReport();
+      toast.success("Vote berhasil disimpan");
     } catch (err) {
-      alert(err instanceof Error ? err.message : "Gagal memverifikasi");
+      toast.error(err instanceof Error ? err.message : "Gagal memverifikasi");
     } finally {
       setVoting(false);
     }
@@ -69,8 +71,9 @@ export default function DetailLaporan() {
     try {
       await api.updateReport(id, { waterDepthCm: depthCm, status });
       await fetchReport();
+      toast.success("Status pembaruan berhasil dikirim");
     } catch (err) {
-      alert(err instanceof Error ? err.message : "Gagal update status");
+      toast.error(err instanceof Error ? err.message : "Gagal update status");
     } finally {
       setUpdating(false);
     }

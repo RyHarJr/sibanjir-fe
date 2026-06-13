@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { Providers } from "@/components/Providers";
 
 export const metadata: Metadata = {
   title: "LaporBanjir Palembang",
@@ -26,7 +27,9 @@ export default function RootLayout({
         />
       </head>
       <body className="font-sans antialiased">
-        {children}
+        <Providers>
+          {children}
+        </Providers>
       </body>
     </html>
   );

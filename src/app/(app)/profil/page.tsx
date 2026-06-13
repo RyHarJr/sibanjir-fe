@@ -85,9 +85,16 @@ export default function ProfilPengguna() {
                 </span>
               </div>
             </div>
-            <button onClick={logout} className="shrink-0 mt-sm sm:mt-0 px-4 py-2 rounded-lg border border-error text-error text-label-bold font-bold hover:bg-error-container transition-colors flex items-center gap-1">
-              <span className="material-symbols-outlined text-[18px]">logout</span>Keluar
-            </button>
+            <div className="flex flex-col sm:flex-row items-center gap-2 mt-sm sm:mt-0 shrink-0 w-full sm:w-auto">
+              {profile.role === "admin" && (
+                <Link href="/admin/dashboard" className="w-full sm:w-auto px-4 py-2 rounded-lg bg-surface-container text-on-surface-variant text-label-bold font-bold hover:bg-primary-container hover:text-on-primary-container transition-colors flex items-center justify-center gap-1">
+                  <span className="material-symbols-outlined text-[18px]">admin_panel_settings</span>Admin Panel
+                </Link>
+              )}
+              <button onClick={logout} className="w-full sm:w-auto px-4 py-2 rounded-lg border border-error text-error text-label-bold font-bold hover:bg-error-container transition-colors flex items-center justify-center gap-1">
+                <span className="material-symbols-outlined text-[18px]">logout</span>Keluar
+              </button>
+            </div>
           </div>
 
           {/* Stats */}
