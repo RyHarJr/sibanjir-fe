@@ -8,6 +8,7 @@ import { useAuth } from "@/lib/AuthContext";
 import BottomNav from "@/components/BottomNav";
 import { Select } from "@/components/ui/Select";
 import type { MapPickerProps } from "@/components/MapPicker";
+import { CheckCircle, AlertCircle, MapPin, Locate, ImagePlus, AlertTriangle, X, Plus, Send } from "lucide-react";
 
 // Dynamic import to avoid SSR issues with Leaflet
 const MapPicker = dynamic<MapPickerProps>(
@@ -199,8 +200,8 @@ export default function BuatLaporan() {
     <div className="bg-surface-container-low min-h-screen text-on-surface pb-20 md:pb-0">
       <form onSubmit={handleSubmit}>
         <main className="max-w-3xl mx-auto p-4 md:p-8 space-y-6 pb-8">
-          {success && <div className="bg-primary-container text-on-primary-container rounded-xl px-md py-sm flex items-center gap-2 text-body-sm"><span className="material-symbols-outlined text-[18px]">check_circle</span>Laporan berhasil dikirim! Mengalihkan...</div>}
-          {error && <div className="bg-error-container text-on-error-container rounded-xl px-md py-sm flex items-center gap-2 text-body-sm"><span className="material-symbols-outlined text-[18px]">error</span>{error}</div>}
+          {success && <div className="bg-primary-container text-on-primary-container rounded-xl px-md py-sm flex items-center gap-2 text-body-sm"><CheckCircle className="w-5 h-5" />Laporan berhasil dikirim! Mengalihkan...</div>}
+          {error && <div className="bg-error-container text-on-error-container rounded-xl px-md py-sm flex items-center gap-2 text-body-sm"><AlertCircle className="w-5 h-5" />{error}</div>}
 
           {/* Step 1: Lokasi */}
           <section className="bg-surface-container-lowest rounded-xl shadow-card border border-outline-variant overflow-hidden">
@@ -219,13 +220,13 @@ export default function BuatLaporan() {
               </div>
               {geoStatus === "success" && (
                 <div className="flex items-center gap-2 text-body-sm text-primary bg-primary-container/10 px-3 py-2 rounded-lg border border-primary/20">
-                  <span className="material-symbols-outlined text-[18px]" style={{ fontVariationSettings: "'FILL' 1" }}>location_on</span>
+                  <MapPin className="w-5 h-5" />
                   <span className="font-medium">Lokasi dipilih:</span>
                   <span className="font-mono">{form.latitude.toFixed(6)}, {form.longitude.toFixed(6)}</span>
                 </div>
               )}
               <button type="button" onClick={handleGeo} disabled={geoStatus === "loading"} className="w-full py-3 px-4 rounded-lg border border-outline-variant flex items-center justify-center gap-2 text-primary text-label-bold font-bold hover:bg-surface-container transition-colors disabled:opacity-60">
-                {geoStatus === "loading" ? <><div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />Mencari...</> : <><span className="material-symbols-outlined text-lg">my_location</span>{geoStatus === "success" ? "Ubah Lokasi" : "Gunakan Lokasi Saat Ini"}</>}
+                {geoStatus === "loading" ? <><div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />Mencari...</> : <><Locate className="w-5 h-5" />{geoStatus === "success" ? "Ubah Lokasi" : "Gunakan Lokasi Saat Ini"}</>}
               </button>
               {geoStatus === "error" && <p className="text-body-sm text-error">Tidak bisa mengakses lokasi. Pastikan GPS aktif.</p>}
               <div>
@@ -317,7 +318,7 @@ export default function BuatLaporan() {
                       : "border-outline-variant hover:border-primary hover:bg-surface-container"
                     }`}
                 >
-                  <span className="material-symbols-outlined text-4xl text-on-surface-variant" style={{ fontVariationSettings: "'FILL' 0" }}>add_photo_alternate</span>
+                  <ImagePlus className="w-10 h-10 text-on-surface-variant" />
                   <div className="text-center">
                     <p className="text-body-md font-medium text-on-surface">Klik atau seret foto ke sini</p>
                     <p className="text-body-sm text-on-surface-variant">Bisa pilih beberapa foto sekaligus</p>
@@ -336,7 +337,7 @@ export default function BuatLaporan() {
               {/* Error */}
               {photoError && (
                 <div className="flex items-center gap-2 text-error text-body-sm bg-error-container/40 px-3 py-2 rounded-lg">
-                  <span className="material-symbols-outlined text-[18px]">warning</span>
+                  <AlertTriangle className="w-5 h-5" />
                   {photoError}
                 </div>
               )}
@@ -360,7 +361,7 @@ export default function BuatLaporan() {
                           className="w-8 h-8 bg-error text-white rounded-full flex items-center justify-center hover:bg-error/90 transition-colors"
                           title="Hapus foto"
                         >
-                          <span className="material-symbols-outlined text-[18px]">close</span>
+                          <X className="w-5 h-5" />
                         </button>
                       </div>
                       {/* Index badge */}
@@ -377,7 +378,7 @@ export default function BuatLaporan() {
                       onClick={() => fileInputRef.current?.click()}
                       className="aspect-square rounded-lg border-2 border-dashed border-outline-variant flex flex-col items-center justify-center gap-1 hover:border-primary hover:bg-surface-container transition-all text-on-surface-variant hover:text-primary"
                     >
-                      <span className="material-symbols-outlined text-2xl">add</span>
+                      <Plus className="w-6 h-6" />
                       <span className="text-[10px] font-medium">{MAX_PHOTOS - photos.length} lagi</span>
                     </button>
                   )}
@@ -386,7 +387,7 @@ export default function BuatLaporan() {
 
               {photos.length === MAX_PHOTOS && (
                 <div className="flex items-center gap-2 text-body-sm text-on-surface-variant bg-surface-container rounded-lg px-3 py-2">
-                  <span className="material-symbols-outlined text-[18px] text-primary">check_circle</span>
+                  <CheckCircle className="w-5 h-5 text-primary" />
                   Batas {MAX_PHOTOS} foto tercapai. Hapus salah satu untuk menambah foto baru.
                 </div>
               )}
@@ -396,7 +397,7 @@ export default function BuatLaporan() {
           <button type="submit" disabled={submitting || success} className="w-full bg-primary text-on-primary py-4 rounded-xl text-h3 font-semibold hover:opacity-90 active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-60">
             {submitting ? <><div className="w-5 h-5 border-2 border-on-primary border-t-transparent rounded-full animate-spin" />
               {photos.length > 0 ? "Mengirim & Upload Foto..." : "Mengirim..."}
-            </> : success ? <><span className="material-symbols-outlined">check_circle</span>Berhasil!</> : <><span className="material-symbols-outlined">send</span>Kirim Laporan{photos.length > 0 ? ` + ${photos.length} Foto` : ""}</>}
+            </> : success ? <><CheckCircle className="w-5 h-5" />Berhasil!</> : <><Send className="w-5 h-5" />Kirim Laporan{photos.length > 0 ? ` + ${photos.length} Foto` : ""}</>}
           </button>
         </main>
       </form>

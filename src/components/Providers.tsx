@@ -9,6 +9,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
       {children}
       <Toaster 
         position="bottom-center" 
+        containerStyle={{ zIndex: 99999 }}
         toastOptions={{ 
           className: 'bg-surface text-on-surface border border-outline-variant shadow-lg',
           duration: 3000,

@@ -4,13 +4,14 @@ import { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import BottomNav from "@/components/BottomNav";
-import { api, FloodReport, timeAgo } from "@/lib/api";
+import { api, FloodReport, timeAgo, resolveImageUrl } from "@/lib/api";
 import { toast } from "react-hot-toast";
 import { useAuth } from "@/lib/AuthContext";
 import { useConfirm } from "@/components/ui/ConfirmProvider";
 import { useRouter } from "next/navigation";
 import { Popover, PopoverButton, PopoverPanel, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
+import { Filter, MoreVertical, Calendar, X, Droplet, MapPin, AlertTriangle, Waves, ImageOff, ThumbsUp, ThumbsDown, ExternalLink, Flag } from 'lucide-react';
 
 type SortType = "latest" | "deepest" | "confidence";
 
@@ -95,7 +96,7 @@ export default function FeedLaporan() {
   return (
     <div className="bg-background text-on-background min-h-screen pb-20">
       {/* Sticky filters */}
-      <div className="sticky top-16 z-40 bg-background/90 backdrop-blur-sm py-3 px-margin-mobile md:px-0 border-b border-surface-variant mb-4 relative z-50">
+      <div className="sticky top-16 z-40 bg-background/90 backdrop-blur-sm py-3 px-margin-mobile md:px-0 border-b border-surface-variant mb-4">
         <div className="max-w-3xl mx-auto flex items-center justify-between gap-3">
           {/* Sort buttons */}
           <div className="flex gap-2 overflow-x-auto hide-scrollbar flex-1 min-w-0">
@@ -124,9 +125,7 @@ export default function FeedLaporan() {
                   }`}
                   title="Filter Tanggal"
                 >
-                  <span className="material-symbols-outlined text-[20px] transition-transform">
-                    {hasDateFilter ? 'filter_alt' : 'more_vert'}
-                  </span>
+                  {hasDateFilter ? <Filter className="w-5 h-5 transition-transform" /> : <MoreVertical className="w-5 h-5 transition-transform" />}
                   {hasDateFilter && <span className="absolute top-0 right-0 w-2.5 h-2.5 bg-error rounded-full border-2 border-white" />}
                 </PopoverButton>
 
@@ -142,7 +141,7 @@ export default function FeedLaporan() {
                   <PopoverPanel className="absolute right-0 top-full mt-3 w-[300px] sm:w-[360px] bg-surface rounded-2xl shadow-xl border border-outline-variant p-4 z-50 origin-top-right ring-1 ring-black ring-opacity-5">
                     <div className="flex flex-col gap-3">
                       <h3 className="text-h3 font-bold text-on-surface flex items-center gap-2 border-b border-outline-variant/30 pb-2">
-                        <span className="material-symbols-outlined text-[18px] text-primary">calendar_month</span>
+                        <Calendar className="w-4 h-4 text-primary" />
                         Rentang Waktu
                       </h3>
                       
@@ -161,7 +160,7 @@ export default function FeedLaporan() {
                         </div>
                         {hasDateFilter && (
                           <button onClick={() => { setDateFrom(""); setDateTo(""); }} className="mt-2 w-full py-2 rounded-lg text-label-bold font-bold bg-error/10 text-error hover:bg-error-container transition-colors flex items-center justify-center gap-1 border border-error/20">
-                            <span className="material-symbols-outlined text-[16px]">close</span> Reset Filter
+                            <X className="w-4 h-4" /> Reset Filter
                           </button>
                         )}
                       </div>
@@ -182,7 +181,7 @@ export default function FeedLaporan() {
             ))
           ) : feed.length === 0 ? (
             <div className="text-center py-xl text-on-surface-variant">
-              <span className="material-symbols-outlined text-[48px] mb-md block">water_drop</span>
+              <Droplet className="w-12 h-12 block mx-auto mb-md" />
               <p className="text-body-lg">Belum ada laporan banjir aktif</p>
             </div>
           ) : feed.map((item) => {
@@ -191,7 +190,7 @@ export default function FeedLaporan() {
             const iconColor   = ICON_COLOR[item.status] ?? "text-on-surface";
             const confirms    = item._count?.verifications ?? 0;
             // Resolve display image: legacy photoUrl field OR first uploaded photo
-            const displayPhoto = item.photoUrl || item.photos?.[0]?.imageUrl || null;
+            const displayPhoto = resolveImageUrl(item.photoUrl || item.photos?.[0]?.imageUrl || null);
             return (
               <article key={item.id} className="bg-surface rounded-xl shadow-card overflow-hidden border border-surface-variant relative">
                 <div className={`absolute left-0 top-0 bottom-0 w-1 ${borderColor}`} />
@@ -199,7 +198,7 @@ export default function FeedLaporan() {
                   {/* Header */}
                   <div className="flex justify-between items-start pl-2 gap-2">
                     <div className="flex items-start gap-2 text-on-surface min-w-0">
-                      <span className={`material-symbols-outlined mt-0.5 flex-shrink-0 ${iconColor}`}>location_on</span>
+                      <MapPin className={`w-5 h-5 flex-shrink-0 ${iconColor} mt-0.5`} />
                       <div className="min-w-0">
                         <h3 className="text-h3 font-semibold truncate">{item.title}</h3>
                         <p className="text-body-sm text-on-surface-variant line-clamp-2">
@@ -208,7 +207,7 @@ export default function FeedLaporan() {
                       </div>
                     </div>
                     <span className={`inline-flex items-center px-2 py-1 rounded ${badgeCls} text-[10px] sm:text-xs font-bold gap-1 whitespace-nowrap flex-shrink-0`}>
-                      <span className="material-symbols-outlined text-[12px] sm:text-[14px]">warning</span>
+                      <AlertTriangle className="w-3.5 h-3.5" />
                       <span className="hidden sm:inline">{STATUS_LABEL[item.status]}</span>
                       <span className="sm:hidden">{item.status === 'active' ? 'Aktif' : item.status === 'surging' ? 'Naik' : 'Surut'}</span>
                     </span>
@@ -219,7 +218,7 @@ export default function FeedLaporan() {
                     <div className="rounded-lg overflow-hidden relative mt-1 aspect-video bg-surface-container-highest">
                       <Image src={displayPhoto} alt={item.title} fill className="object-cover" unoptimized />
                       <div className="absolute bottom-2 left-2 bg-inverse-surface/80 text-inverse-on-surface px-2 py-1 rounded backdrop-blur-sm text-label-bold font-bold flex items-center gap-1">
-                        <span className="material-symbols-outlined text-[14px]">water</span>
+                        <Waves className="w-4 h-4" />
                         Kedalaman: {item.waterDepthCm} cm
                         {(item._count?.photos ?? 0) > 1 && (
                           <span className="ml-1 opacity-80">+{(item._count!.photos) - 1} foto</span>
@@ -229,7 +228,7 @@ export default function FeedLaporan() {
                   ) : (
                     <div className="rounded-lg bg-surface-container-highest aspect-video flex items-center justify-center text-on-surface-variant mt-1">
                       <div className="text-center">
-                        <span className="material-symbols-outlined text-[40px] block mb-1">image_not_supported</span>
+                        <ImageOff className="w-10 h-10 mx-auto mb-1 block" />
                         <span className="text-body-sm">Kedalaman: {item.waterDepthCm} cm</span>
                       </div>
                     </div>
@@ -249,14 +248,14 @@ export default function FeedLaporan() {
                       disabled={voting[item.id]}
                       className="flex-1 min-w-[120px] bg-primary text-on-primary text-[11px] sm:text-xs font-bold py-2 px-2 sm:px-3 rounded flex items-center justify-center gap-1 hover:bg-on-primary-fixed-variant transition-colors disabled:opacity-60"
                     >
-                      <span className="material-symbols-outlined text-[16px] sm:text-[18px]">thumb_up</span>
+                      <ThumbsUp className="w-4 h-4 md:w-5 md:h-5" />
                       Konfirmasi
                     </button>
                     <Link
                       href={`/laporan/${item.id}`}
                       className="flex-1 min-w-[100px] bg-secondary-container text-on-secondary-container text-[11px] sm:text-xs font-bold py-2 px-2 sm:px-3 rounded flex items-center justify-center gap-1 hover:bg-secondary-fixed-dim transition-colors"
                     >
-                      <span className="material-symbols-outlined text-[16px] sm:text-[18px]">open_in_new</span>
+                      <ExternalLink className="w-4 h-4 md:w-5 md:h-5" />
                       Detail
                     </Link>
                     <button
@@ -265,7 +264,7 @@ export default function FeedLaporan() {
                       className="bg-surface text-on-surface-variant border border-outline-variant text-[11px] sm:text-xs font-bold py-2 px-3 rounded flex items-center justify-center hover:bg-surface-variant transition-colors disabled:opacity-60 shrink-0"
                       title="Laporkan tidak akurat"
                     >
-                      <span className="material-symbols-outlined text-[16px] sm:text-[18px]">flag</span>
+                      <Flag className="w-4 h-4 md:w-5 md:h-5" />
                     </button>
                   </div>
                 </div>

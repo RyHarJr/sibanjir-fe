@@ -1,6 +1,7 @@
 "use client";
 import { Listbox, ListboxButton, ListboxOptions, ListboxOption, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
+import { ChevronDown, Check } from 'lucide-react'
 
 export interface SelectProps {
   options: { value: string; label: string }[];
@@ -19,7 +20,7 @@ export function Select({ options, value, onChange, placeholder = "Pilih...", dis
         <ListboxButton className={`relative w-full px-3 py-2.5 text-left rounded-lg border border-outline-variant bg-surface text-on-surface focus:outline-none focus:border-primary transition-colors cursor-pointer sm:text-[14px] ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}>
           <span className="block truncate font-medium">{selected ? selected.label : placeholder}</span>
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-on-surface-variant">
-            <span className="material-symbols-outlined text-[18px]">expand_more</span>
+            <ChevronDown className="w-5 h-5" />
           </span>
         </ListboxButton>
         <Transition
@@ -46,7 +47,7 @@ export function Select({ options, value, onChange, placeholder = "Pilih...", dis
                     </span>
                     {selected ? (
                       <span className={`absolute inset-y-0 left-0 flex items-center pl-3 ${active ? 'text-on-primary' : 'text-primary'}`}>
-                        <span className="material-symbols-outlined text-[18px] font-bold">check</span>
+                        <Check className="w-5 h-5" />
                       </span>
                     ) : null}
                   </>

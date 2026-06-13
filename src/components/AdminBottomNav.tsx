@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/lib/AuthContext";
+import { LayoutDashboard, ClipboardList, Users } from "lucide-react";
 
 export default function AdminBottomNav() {
   const pathname = usePathname();
@@ -10,9 +11,9 @@ export default function AdminBottomNav() {
   if (!user || user.role !== "admin") return null;
 
   const items = [
-    { key: "dashboard", icon: "dashboard", label: "Dashboard", href: "/admin/dashboard" },
-    { key: "laporan", icon: "assignment", label: "Laporan", href: "/admin/laporan" },
-    { key: "pengguna", icon: "group", label: "Pengguna", href: "/admin/pengguna" },
+    { key: "dashboard", icon: LayoutDashboard, label: "Dashboard", href: "/admin/dashboard" },
+    { key: "laporan", icon: ClipboardList, label: "Laporan", href: "/admin/laporan" },
+    { key: "pengguna", icon: Users, label: "Pengguna", href: "/admin/pengguna" },
   ] as const;
 
   return (
@@ -29,12 +30,7 @@ export default function AdminBottomNav() {
                 : "text-slate-500 hover:text-primary"
             }`}
           >
-            <span
-              className="material-symbols-outlined mb-1 text-[24px]"
-              style={isActive ? { fontVariationSettings: "'FILL' 1" } : undefined}
-            >
-              {item.icon}
-            </span>
+            <item.icon className="mb-1 w-6 h-6" />
             {item.label}
           </Link>
         );

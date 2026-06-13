@@ -5,9 +5,10 @@ import Link from "next/link";
 import Image from "next/image";
 import BottomNav from "@/components/BottomNav";
 import DashboardMapClient from "@/components/DashboardMapClient";
-import { api, FloodReport, timeAgo, severityColor } from "@/lib/api";
+import { api, FloodReport, timeAgo, severityColor, resolveImageUrl } from "@/lib/api";
 import { Popover, PopoverButton, PopoverPanel, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
+import { Droplet, AlertTriangle, BellPlus, ArrowRight, Filter, MoreVertical, Calendar, X, ChevronRight, ImageOff, MapPin, CheckCircle, Clock, PlusSquare } from "lucide-react";
 
 export default function Dashboard() {
   const [reports, setReports] = useState<FloodReport[]>([]);
@@ -68,7 +69,7 @@ export default function Dashboard() {
           <div className="bg-surface-container-lowest p-md rounded-lg ambient-shadow-sm border-l-[4px] border-error flex flex-col justify-between min-h-[120px]">
             <div className="flex justify-between items-start mb-xs">
               <span className="text-label-bold font-bold text-on-surface-variant uppercase tracking-wider">Titik Banjir Aktif</span>
-              <span className="material-symbols-outlined text-error text-[20px]">water_drop</span>
+              <Droplet className="w-5 h-5 text-error" />
             </div>
             <div className="text-h1 font-bold text-on-surface">{loading ? "…" : activeCount}</div>
             <div className="text-body-sm text-on-surface-variant mt-xs">Data real-time dari laporan warga</div>
@@ -77,7 +78,7 @@ export default function Dashboard() {
           <div className="bg-surface-container-lowest p-md rounded-lg ambient-shadow-sm border-l-[4px] border-warning flex flex-col justify-between min-h-[120px]">
             <div className="flex justify-between items-start mb-xs">
               <span className="text-label-bold font-bold text-on-surface-variant uppercase tracking-wider">Area Rawan Tertinggi</span>
-              <span className="material-symbols-outlined text-warning text-[20px]">warning</span>
+              <AlertTriangle className="w-5 h-5 text-warning" />
             </div>
             <div className="text-h2 font-bold text-on-surface leading-tight mt-1">{loading ? "…" : highestRisk}</div>
             <div className="text-body-sm text-on-surface-variant mt-xs">Berdasarkan rata-rata kedalaman</div>
@@ -86,11 +87,11 @@ export default function Dashboard() {
           <div className="bg-surface-container-lowest p-md rounded-lg ambient-shadow-sm border-l-[4px] border-primary flex flex-col justify-between min-h-[120px]">
             <div className="flex justify-between items-start mb-xs">
               <span className="text-label-bold font-bold text-on-surface-variant uppercase tracking-wider">Total Laporan</span>
-              <span className="material-symbols-outlined text-primary text-[20px]">add_alert</span>
+              <BellPlus className="w-5 h-5 text-primary" />
             </div>
             <div className="text-h1 font-bold text-on-surface">{loading ? "…" : newReports}</div>
             <Link href="/laporan" className="text-body-sm text-primary font-medium mt-xs flex items-center gap-1">
-              Lihat semua <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
+               Lihat semua <ArrowRight className="w-4 h-4 ml-1" />
             </Link>
           </div>
         </section>
@@ -98,7 +99,7 @@ export default function Dashboard() {
         {/* Map */}
         <section className="bg-surface-container-lowest rounded-xl ambient-shadow-sm border border-outline-variant relative overflow-hidden">
           {/* Map filter bar */}
-          <div className="flex flex-wrap items-center gap-2 px-4 py-3 border-b border-outline-variant bg-surface-container-low/50 relative z-50">
+          <div className="flex flex-wrap items-center gap-2 px-4 py-3 border-b border-outline-variant bg-surface-container-low/50 relative z-40">
             <div className="flex items-center gap-2 mr-auto">
               <div className="w-3 h-3 rounded-full bg-error animate-pulse" />
               <span className="text-label-bold font-bold text-on-surface">Live Map</span>
@@ -118,9 +119,7 @@ export default function Dashboard() {
                     }`}
                     title="Filter Tanggal"
                   >
-                    <span className="material-symbols-outlined text-[20px] transition-transform">
-                      {hasFilter ? 'filter_alt' : 'more_vert'}
-                    </span>
+                    {hasFilter ? <Filter className="w-5 h-5 transition-transform" /> : <MoreVertical className="w-5 h-5 transition-transform" />}
                     {hasFilter && <span className="absolute top-0 right-0 w-2.5 h-2.5 bg-error rounded-full border-2 border-white" />}
                   </PopoverButton>
 
@@ -136,7 +135,7 @@ export default function Dashboard() {
                   <PopoverPanel className="absolute right-0 top-full mt-3 w-[300px] sm:w-[360px] bg-surface rounded-2xl shadow-xl border border-outline-variant p-4 z-50 origin-top-right ring-1 ring-black ring-opacity-5">
                       <div className="flex flex-col gap-3">
                         <h3 className="text-h3 font-bold text-on-surface flex items-center gap-2 border-b border-outline-variant/30 pb-2">
-                          <span className="material-symbols-outlined text-[18px] text-primary">calendar_month</span>
+                          <Calendar className="w-4 h-4 text-primary" />
                           Rentang Waktu Peta
                         </h3>
                         
@@ -155,7 +154,7 @@ export default function Dashboard() {
                           </div>
                           {hasFilter && (
                             <button onClick={() => { setDateFrom(""); setDateTo(""); }} className="mt-2 w-full py-2 rounded-lg text-label-bold font-bold bg-error/10 text-error hover:bg-error-container transition-colors flex items-center justify-center gap-1 border border-error/20">
-                              <span className="material-symbols-outlined text-[16px]">close</span> Reset Filter
+                              <X className="w-4 h-4" /> Reset Filter
                             </button>
                           )}
                         </div>
@@ -179,7 +178,7 @@ export default function Dashboard() {
               <p className="text-body-sm text-on-surface-variant mt-1">Laporan dari warga dan petugas di lapangan</p>
             </div>
             <Link href="/laporan" className="text-label-bold font-bold text-primary flex items-center gap-1 hover:underline underline-offset-4">
-              Lihat Semua <span className="material-symbols-outlined text-[16px]">chevron_right</span>
+              Lihat Semua <ChevronRight className="w-4 h-4" />
             </Link>
           </div>
 
@@ -197,17 +196,17 @@ export default function Dashboard() {
                 const bgCls    = colorCls.split(" ")[0];
                 const confirms = card._count?.verifications ?? 0;
                 // Resolve display image: legacy photoUrl field OR first uploaded photo
-                const displayPhoto = card.photoUrl || card.photos?.[0]?.imageUrl || null;
+                const displayPhoto = resolveImageUrl(card.photoUrl || card.photos?.[0]?.imageUrl || null);
                 return (
                   <Link key={card.id} href={`/laporan/${card.id}`} className="bg-surface-container-lowest rounded-lg ambient-shadow-sm border border-outline-variant flex flex-col overflow-hidden group hover:border-primary/50 transition-colors">
                     <div className="relative h-32 w-full overflow-hidden bg-surface-container flex items-center justify-center">
                       {displayPhoto ? (
                         <Image src={displayPhoto} alt={card.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" unoptimized />
                       ) : (
-                        <span className="material-symbols-outlined text-[40px] text-outline-variant">image_not_supported</span>
+                        <ImageOff className="w-10 h-10 text-outline-variant" />
                       )}
                       <div className={`absolute top-2 left-2 ${bgCls} text-white px-2 py-1 rounded text-[10px] tracking-wider uppercase ambient-shadow-sm flex items-center gap-1`}>
-                        <span className="material-symbols-outlined text-[12px]">emergency</span>
+                        <AlertTriangle className="w-3 h-3" />
                         {card.severityLevel === "high" || card.severityLevel === "extreme" ? "Kritis" : "Waspada"}
                       </div>
                     </div>
@@ -220,21 +219,21 @@ export default function Dashboard() {
                       <div className="mt-auto pt-3 border-t border-surface-variant flex items-center justify-between">
                         <div className="flex gap-3">
                           <div className="flex items-center gap-1 text-on-surface-variant">
-                            <span className="material-symbols-outlined text-[16px]">water_drop</span>
+                            <Droplet className="w-4 h-4" />
                             <span className="text-body-sm font-medium">{card.waterDepthCm}cm</span>
                           </div>
                           <div className="flex items-center gap-1 text-on-surface-variant">
-                            <span className="material-symbols-outlined text-[16px]">location_on</span>
+                            <MapPin className="w-4 h-4" />
                             <span className="text-body-sm font-medium">{card.district?.name ?? "—"}</span>
                           </div>
                         </div>
                         {confirms > 0 ? (
                           <span className="inline-flex items-center px-2 py-1 rounded-full bg-surface-container text-on-surface-variant text-[10px] font-bold">
-                            <span className="material-symbols-outlined text-[12px] mr-1">verified</span> {confirms} konfirmasi
+                            <CheckCircle className="w-3 h-3 mr-1" /> {confirms} konfirmasi
                           </span>
                         ) : (
                           <span className="inline-flex items-center px-2 py-1 rounded-full bg-surface text-outline border border-outline-variant text-[10px] font-bold">
-                            <span className="material-symbols-outlined text-[12px] mr-1">pending</span> Menunggu
+                            <Clock className="w-3 h-3 mr-1" /> Menunggu
                           </span>
                         )}
                       </div>
@@ -252,7 +251,7 @@ export default function Dashboard() {
         href="/buat-laporan"
         className="fixed bottom-[90px] md:bottom-lg right-margin-mobile md:right-margin-desktop z-[1100] bg-primary text-on-primary px-5 py-4 rounded-full ambient-shadow-md flex items-center gap-2 hover:bg-on-primary-fixed-variant transition-all hover:scale-105 active:scale-95 border-2 border-primary-container"
       >
-        <span className="material-symbols-outlined text-[24px]">add_box</span>
+        <PlusSquare className="w-6 h-6" />
         <span className="text-label-bold font-bold tracking-widest uppercase">Lapor Banjir</span>
       </Link>
 

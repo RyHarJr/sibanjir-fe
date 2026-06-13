@@ -5,6 +5,7 @@ import Image from "next/image";
 import BottomNav from "@/components/BottomNav";
 import { api, WeatherData } from "@/lib/api";
 import { Select } from "@/components/ui/Select";
+import { CloudSun, CloudOff, Droplets } from "lucide-react";
 
 type Region = { id: string; name: string };
 
@@ -108,7 +109,7 @@ export default function CuacaPage() {
       <main className="px-margin-mobile md:px-margin-desktop max-w-[1000px] mx-auto space-y-lg pt-lg">
         
         <section className="bg-surface-container-lowest rounded-xl p-6 ambient-shadow-sm border border-outline-variant text-center selection-area">
-          <span className="material-symbols-outlined text-[48px] text-primary mb-2 transform -translate-y-1">partly_cloudy_day</span>
+          <CloudSun className="w-12 h-12 text-primary mx-auto mb-2 transform -translate-y-1" />
           <h1 className="text-h1 font-bold text-on-surface mb-2">Prakiraan Cuaca BMKG</h1>
           
           <div className="max-w-xl mx-auto space-y-4 pt-4">
@@ -196,8 +197,8 @@ export default function CuacaPage() {
             {[1,2,3,4,5,6].map(i => <div key={i} className="h-[120px] bg-surface-container animate-pulse rounded-xl" />)}
           </div>
         ) : !data || data.forecasts.length === 0 ? (
-          <div className="text-center p-8 bg-surface-container-lowest rounded-xl border border-outline-variant">
-            <span className="material-symbols-outlined text-[48px] text-on-surface-variant/50 mb-3 block">cloud_off</span>
+          <div className="text-center p-8 bg-surface-container-lowest rounded-xl border border-outline-variant flex flex-col items-center">
+            <CloudOff className="w-12 h-12 text-on-surface-variant/50 mb-3 block" />
             <p className="text-on-surface-variant font-medium">Data cuaca BMKG untuk wilayah ini belum tersedia.</p>
           </div>
         ) : (
@@ -224,7 +225,7 @@ export default function CuacaPage() {
                     <div>
                       <p className="font-extrabold text-on-surface text-[15px] leading-tight mb-1">{f.weatherDesc}</p>
                       <div className="flex flex-col gap-0.5 text-[12px] text-on-surface-variant font-medium">
-                        <span className="flex items-center gap-1"><span className="material-symbols-outlined text-[14px]">humidity_percentage</span> Kelembapan: {f.humidity ?? "-"}%</span>
+                        <span className="flex items-center gap-1"><Droplets className="w-3.5 h-3.5" /> Kelembapan: {f.humidity ?? "-"}%</span>
                       </div>
                     </div>
                   </div>

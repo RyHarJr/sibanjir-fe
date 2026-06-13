@@ -400,3 +400,24 @@ export function roadAccessLabel(access: string): string {
     impassable: "Tidak Bisa",
   }[access] ?? access;
 }
+
+export function resolveImageUrl(url: string | null | undefined): string | null {
+  if (!url) return null;
+
+  // Jika URL berupa relative path (contoh: /uploads/abc.jpg)
+  if (url.startsWith("/")) {
+    return `${BASE_URL}${url}`;
+  }
+
+  // Jika URL menggunakan scheme localhost tetapi aplikasi dijalankan pada environment produksi
+  if (url.startsWith("http://localhost") && !BASE_URL.includes("localhost")) {
+    try {
+      const parsed = new URL(url);
+      return `${BASE_URL}${parsed.pathname}`;
+    } catch {
+      return url;
+    }
+  }
+
+  return url;
+}

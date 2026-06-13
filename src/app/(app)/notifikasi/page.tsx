@@ -5,12 +5,24 @@ import { useRouter } from "next/navigation";
 import BottomNav from "@/components/BottomNav";
 import { api, Notification, timeAgo } from "@/lib/api";
 import { useAuth } from "@/lib/AuthContext";
+import { BellOff, AlertTriangle, Droplet, CheckCircle, Info } from "lucide-react";
 
-const ICON_MAP: Record<string, { icon: string; iconBg: string; iconColor: string; border: string }> = {
+type IconType = "warning" | "water_drop" | "check_circle" | "info";
+const ICON_MAP: Record<string, { icon: IconType; iconBg: string; iconColor: string; border: string }> = {
   alert: { icon: "warning", iconBg: "bg-error-container", iconColor: "text-error", border: "border-error" },
   report_update: { icon: "water_drop", iconBg: "bg-primary-container", iconColor: "text-on-primary-container", border: "border-primary" },
   verification: { icon: "check_circle", iconBg: "bg-surface-variant", iconColor: "text-on-surface-variant", border: "border-outline-variant" },
   system: { icon: "info", iconBg: "bg-surface-variant", iconColor: "text-on-surface-variant", border: "border-outline-variant" },
+};
+
+const renderIcon = (type: IconType, className: string) => {
+  switch (type) {
+    case "warning": return <AlertTriangle className={className} />;
+    case "water_drop": return <Droplet className={className} />;
+    case "check_circle": return <CheckCircle className={className} />;
+    case "info": return <Info className={className} />;
+    default: return <Info className={className} />;
+  }
 };
 
 export default function Notifikasi() {
@@ -82,7 +94,7 @@ export default function Notifikasi() {
             ))
           ) : notifications.length === 0 ? (
             <div className="text-center py-xl text-on-surface-variant">
-              <span className="material-symbols-outlined text-[48px] mb-md block">notifications_off</span>
+              <BellOff className="w-12 h-12 mb-md block mx-auto" />
               <p className="text-body-lg">Belum ada notifikasi</p>
             </div>
           ) : (
@@ -98,7 +110,7 @@ export default function Notifikasi() {
                     <div className="absolute inset-0 bg-error/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
                   )}
                   <div className={`w-10 h-10 rounded-full ${style.iconBg} flex items-center justify-center shrink-0`}>
-                    <span className={`material-symbols-outlined ${style.iconColor}`} style={{ fontVariationSettings: "'FILL' 1" }}>{style.icon}</span>
+                    {renderIcon(style.icon, `w-5 h-5 ${style.iconColor}`)}
                   </div>
                   <div className="flex-1">
                     <div className="flex justify-between items-start mb-xs">

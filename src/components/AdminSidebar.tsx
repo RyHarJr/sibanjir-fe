@@ -3,11 +3,12 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/lib/AuthContext";
+import { LayoutDashboard, ClipboardList, Users, Shield, LogOut, LogIn } from "lucide-react";
 
 const NAV_ITEMS = [
-  { key: "dashboard", href: "/admin/dashboard", icon: "dashboard", label: "Dashboard" },
-  { key: "laporan", href: "/admin/laporan", icon: "assignment", label: "Kelola Laporan" },
-  { key: "pengguna", href: "/admin/pengguna", icon: "group", label: "Kelola Pengguna" },
+  { key: "dashboard", href: "/admin/dashboard", icon: LayoutDashboard, label: "Dashboard" },
+  { key: "laporan", href: "/admin/laporan", icon: ClipboardList, label: "Kelola Laporan" },
+  { key: "pengguna", href: "/admin/pengguna", icon: Users, label: "Kelola Pengguna" },
 ] as const;
 
 interface AdminSidebarProps {
@@ -45,12 +46,7 @@ export default function AdminSidebar({ collapsed }: AdminSidebarProps) {
                   : "text-on-surface-variant hover:bg-surface-container hover:text-on-surface"
               }`}
             >
-              <span
-                className="material-symbols-outlined text-[22px] flex-shrink-0"
-                style={{ fontVariationSettings: isActive ? "'FILL' 1" : "'FILL' 0" }}
-              >
-                {item.icon}
-              </span>
+              <item.icon className="flex-shrink-0 w-6 h-6" />
               {!collapsed && (
                 <span className="text-[14px] font-semibold truncate">{item.label}</span>
               )}
@@ -82,7 +78,7 @@ export default function AdminSidebar({ collapsed }: AdminSidebarProps) {
                   title="Keluar"
                   className="p-1.5 rounded-lg hover:bg-error-container hover:text-error transition-colors text-on-surface-variant flex-shrink-0"
                 >
-                  <span className="material-symbols-outlined text-[18px]">logout</span>
+                  <LogOut className="w-5 h-5" />
                 </button>
               </>
             )}
@@ -92,7 +88,7 @@ export default function AdminSidebar({ collapsed }: AdminSidebarProps) {
                 title="Keluar"
                 className="mt-2 w-full flex justify-center p-1.5 rounded-lg hover:bg-error-container hover:text-error transition-colors text-on-surface-variant"
               >
-                <span className="material-symbols-outlined text-[18px]">logout</span>
+                <LogOut className="w-5 h-5" />
               </button>
             )}
           </div>
@@ -101,7 +97,7 @@ export default function AdminSidebar({ collapsed }: AdminSidebarProps) {
             href="/login"
             className={`flex items-center gap-3 px-3 py-2 rounded-xl bg-primary text-on-primary text-[13px] font-semibold hover:bg-on-primary-fixed-variant transition-colors ${collapsed ? "justify-center" : ""}`}
           >
-            <span className="material-symbols-outlined text-[20px]">login</span>
+            <LogIn className="w-5 h-5" />
             {!collapsed && "Masuk"}
           </Link>
         )}

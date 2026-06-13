@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { api } from "@/lib/api";
+import { ArrowLeft, Droplets, AlertCircle, User, Mail, Phone, Lock, Eye, EyeOff, LockKeyhole, CheckCircle, XCircle, UserPlus, ArrowRight } from "lucide-react";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -55,15 +56,13 @@ export default function RegisterPage() {
       <main className="flex-1 flex flex-col items-center justify-center px-margin-mobile md:px-0 relative z-10 w-full max-w-md mx-auto py-xl">
         {/* Back */}
         <Link href="/" className="self-start flex items-center gap-1 text-secondary text-body-sm font-semibold mb-xl hover:text-primary transition-colors">
-          <span className="material-symbols-outlined text-[18px]">arrow_back</span>
+          <ArrowLeft className="w-4 h-4" />
           Kembali
         </Link>
 
         {/* Logo mini */}
         <div className="w-14 h-14 bg-primary-container text-on-primary-container rounded-full flex items-center justify-center shadow-sm mb-lg">
-          <span className="material-symbols-outlined text-[28px]" style={{ fontVariationSettings: "'FILL' 1" }}>
-            water_damage
-          </span>
+          <Droplets className="w-7 h-7 fill-current" />
         </div>
 
         <h1 className="text-h1 font-bold text-primary mb-xs tracking-tight text-center">Daftar</h1>
@@ -74,7 +73,7 @@ export default function RegisterPage() {
         {/* Error banner */}
         {error && (
           <div className="w-full mb-md bg-error-container text-on-error-container rounded-xl px-md py-sm flex items-center gap-2 text-body-sm">
-            <span className="material-symbols-outlined text-[18px]">error</span>
+            <AlertCircle className="w-4 h-4" />
             {error}
           </div>
         )}
@@ -86,7 +85,7 @@ export default function RegisterPage() {
               Nama Lengkap
             </label>
             <div className="flex items-center gap-sm bg-surface-container-low border border-outline-variant rounded-xl px-md py-sm focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all">
-              <span className="material-symbols-outlined text-on-surface-variant text-[20px]">person</span>
+              <User className="w-5 h-5 text-on-surface-variant" />
               <input
                 type="text"
                 placeholder="Budi Santoso"
@@ -104,7 +103,7 @@ export default function RegisterPage() {
               Email
             </label>
             <div className="flex items-center gap-sm bg-surface-container-low border border-outline-variant rounded-xl px-md py-sm focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all">
-              <span className="material-symbols-outlined text-on-surface-variant text-[20px]">mail</span>
+              <Mail className="w-5 h-5 text-on-surface-variant" />
               <input
                 type="email"
                 placeholder="budi@email.com"
@@ -122,7 +121,7 @@ export default function RegisterPage() {
               No. HP <span className="normal-case font-normal tracking-normal">(opsional)</span>
             </label>
             <div className="flex items-center gap-sm bg-surface-container-low border border-outline-variant rounded-xl px-md py-sm focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all">
-              <span className="material-symbols-outlined text-on-surface-variant text-[20px]">phone</span>
+              <Phone className="w-5 h-5 text-on-surface-variant" />
               <input
                 type="tel"
                 placeholder="+62812345678"
@@ -139,7 +138,7 @@ export default function RegisterPage() {
               Password
             </label>
             <div className="flex items-center gap-sm bg-surface-container-low border border-outline-variant rounded-xl px-md py-sm focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all">
-              <span className="material-symbols-outlined text-on-surface-variant text-[20px]">lock</span>
+              <Lock className="w-5 h-5 text-on-surface-variant" />
               <input
                 type={showPassword ? "text" : "password"}
                 placeholder="Min. 6 karakter"
@@ -153,9 +152,7 @@ export default function RegisterPage() {
                 onClick={() => setShowPassword(!showPassword)}
                 className="text-on-surface-variant hover:text-on-surface transition-colors"
               >
-                <span className="material-symbols-outlined text-[20px]">
-                  {showPassword ? "visibility_off" : "visibility"}
-                </span>
+                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
               </button>
             </div>
             {/* Password strength bar */}
@@ -179,7 +176,7 @@ export default function RegisterPage() {
                 ? "border-error focus-within:border-error focus-within:ring-error"
                 : "border-outline-variant focus-within:border-primary focus-within:ring-primary"
             }`}>
-              <span className="material-symbols-outlined text-on-surface-variant text-[20px]">lock_reset</span>
+              <LockKeyhole className="w-5 h-5 text-on-surface-variant" />
               <input
                 type={showPassword ? "text" : "password"}
                 placeholder="Ulangi password"
@@ -189,8 +186,8 @@ export default function RegisterPage() {
                 className="flex-1 bg-transparent outline-none text-body-md text-on-surface placeholder:text-outline"
               />
               {form.confirmPassword && (
-                <span className={`material-symbols-outlined text-[18px] ${form.confirmPassword === form.password ? "text-primary" : "text-error"}`}>
-                  {form.confirmPassword === form.password ? "check_circle" : "cancel"}
+                <span className={form.confirmPassword === form.password ? "text-primary" : "text-error"}>
+                  {form.confirmPassword === form.password ? <CheckCircle className="w-5 h-5" /> : <XCircle className="w-5 h-5" />}
                 </span>
               )}
             </div>
@@ -209,7 +206,7 @@ export default function RegisterPage() {
               </>
             ) : (
               <>
-                <span className="material-symbols-outlined text-[20px]">how_to_reg</span>
+                <UserPlus className="w-5 h-5" />
                 Buat Akun
               </>
             )}
@@ -237,7 +234,7 @@ export default function RegisterPage() {
           className="mt-md text-secondary font-bold text-label-bold py-2 px-4 rounded-full flex items-center gap-1.5 hover:bg-surface-variant/50 transition-colors"
         >
           Lanjut sebagai tamu
-          <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
+          <ArrowRight className="w-4 h-4" />
         </Link>
       </main>
     </div>

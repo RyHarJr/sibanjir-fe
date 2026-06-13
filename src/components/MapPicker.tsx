@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef } from "react";
 import { loadGoogleMaps } from "@/lib/googleMaps";
 
 const DEFAULT_CENTER = { lat: -2.9761, lng: 104.7754 }; // Palembang
@@ -12,18 +12,21 @@ export interface MapPickerProps {
   onMapClick: (lat: number, lng: number) => void;
 }
 
-/* ── Custom blue pin HTML ────────────────────────────────────────────────── */
 function createPinElement(): HTMLElement {
   const el = document.createElement("div");
+  el.style.cssText = "position:relative; width:36px; height:48px;";
+  const iconStr = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="#0057d9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>`;
   el.innerHTML = `
-<svg xmlns="http://www.w3.org/2000/svg" width="36" height="48" viewBox="0 0 36 48">
+<svg style="position:absolute; inset:0;" xmlns="http://www.w3.org/2000/svg" width="36" height="48" viewBox="0 0 36 48">
   <filter id="ps" x="-30%" y="-20%" width="160%" height="160%">
     <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="rgba(0,0,0,0.4)"/>
   </filter>
   <circle cx="18" cy="18" r="16" fill="#0057d9" stroke="white" stroke-width="3" filter="url(#ps)"/>
-  <text x="18" y="24" text-anchor="middle" font-family="Material Symbols Outlined" font-size="16" fill="white">location_on</text>
   <polygon points="11,31 25,31 18,47" fill="#0057d9"/>
-</svg>`;
+</svg>
+<div style="position:absolute; top:2px; left:0; right:0; height:32px; display:flex; align-items:center; justify-content:center;">
+  ${iconStr}
+</div>`;
   return el;
 }
 

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Droplets, Compass, Megaphone, Droplet, Map as MapIcon, ShieldCheck, Route } from "lucide-react";
 
 export default function LandingPage() {
   return (
@@ -9,9 +10,7 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 md:px-8 h-full flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
             <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-on-primary">
-              <span className="material-symbols-outlined text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>
-                water_damage
-              </span>
+              <Droplets className="w-6 h-6" />
             </div>
             <span className="font-bold text-xl tracking-tight text-primary">LaporBanjir</span>
           </Link>
@@ -57,11 +56,11 @@ export default function LandingPage() {
             {/* Buttons */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
                <Link href="/dashboard" className="w-full sm:w-auto px-8 h-14 rounded-full bg-primary text-white font-medium text-base flex items-center justify-center gap-2 hover:bg-on-primary-fixed-variant transition-colors shadow-sm">
-                 <span className="material-symbols-outlined text-[20px]">explore</span>
+                 <Compass className="w-5 h-5" />
                  Buka Peta
                </Link>
                <Link href="/buat-laporan" className="w-full sm:w-auto px-8 h-14 rounded-full bg-white border border-outline-variant text-on-surface font-medium text-base flex items-center justify-center gap-2 hover:bg-surface-container transition-colors shadow-sm">
-                 <span className="material-symbols-outlined text-[20px]">campaign</span>
+                 <Megaphone className="w-5 h-5" />
                  Buat Laporan
                </Link>
             </div>
@@ -100,7 +99,7 @@ export default function LandingPage() {
                 {/* Feature 1 */}
                 <div className="bg-white rounded-3xl p-8 border border-outline-variant/50 hover:shadow-md transition-shadow">
                   <div className="w-14 h-14 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-6">
-                    <span className="material-symbols-outlined text-3xl" style={{fontVariationSettings:"'FILL' 1"}}>map</span>
+                    <MapIcon className="w-8 h-8" />
                   </div>
                   <h3 className="text-xl font-bold text-on-surface mb-3">Peta Interaktif</h3>
                   <p className="text-on-surface-variant leading-relaxed text-sm">Pantau titik genangan secara visual. Peta selalu diperbarui secara real-time berdasarkan aktivitas masyarakat setempat.</p>
@@ -109,7 +108,7 @@ export default function LandingPage() {
                 {/* Feature 2 */}
                 <div className="bg-white rounded-3xl p-8 border border-outline-variant/50 hover:shadow-md transition-shadow">
                   <div className="w-14 h-14 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-6">
-                    <span className="material-symbols-outlined text-3xl" style={{fontVariationSettings:"'FILL' 1"}}>verified_user</span>
+                    <ShieldCheck className="w-8 h-8 fill-primary/20" />
                   </div>
                   <h3 className="text-xl font-bold text-on-surface mb-3">Laporan Terverifikasi</h3>
                   <p className="text-on-surface-variant leading-relaxed text-sm">Sistem verifikasi memastikan bahwa laporan yang masuk akurat, mengurangi risiko informasi palsu atau kedaluwarsa.</p>
@@ -118,7 +117,7 @@ export default function LandingPage() {
                 {/* Feature 3 */}
                 <div className="bg-white rounded-3xl p-8 border border-outline-variant/50 hover:shadow-md transition-shadow">
                   <div className="w-14 h-14 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-6">
-                    <span className="material-symbols-outlined text-3xl" style={{fontVariationSettings:"'FILL' 1"}}>alt_route</span>
+                    <Route className="w-8 h-8" />
                   </div>
                   <h3 className="text-xl font-bold text-on-surface mb-3">Navigasi Aman</h3>
                   <p className="text-on-surface-variant leading-relaxed text-sm">Pilih titik awal dan tujuan Anda, dan biarkan sistem mencarikan rute perjalanan yang paling aman dari genangan air.</p>

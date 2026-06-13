@@ -5,6 +5,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useAuth } from "@/lib/AuthContext"
 import { api } from "@/lib/api"
+import { Droplets, Menu, Globe, Shield, Bell, UserCircle } from "lucide-react"
 
 interface TopBarProps {
   collapsed: boolean
@@ -33,9 +34,7 @@ export default function TopBar({ collapsed, onToggle, title = "Palembang Siaga B
         {!collapsed && (
           <Link href="/dashboard" className="flex items-center gap-2 min-w-0">
             <div className="w-7 h-7 bg-primary-container text-on-primary-container rounded-full flex items-center justify-center flex-shrink-0">
-              <span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>
-                water_damage
-              </span>
+              <Droplets className="w-4 h-4" />
             </div>
             <span className="font-black tracking-tight text-primary text-[14px] leading-tight truncate">LaporBanjir</span>
           </Link>
@@ -45,7 +44,7 @@ export default function TopBar({ collapsed, onToggle, title = "Palembang Siaga B
       {/* Center */}
       <div className="flex-1 flex items-center px-4">
         <button onClick={onToggle} className="hidden md:block mr-5 p-1.5 rounded-lg hover:bg-surface-container transition-colors text-on-surface-variant flex-shrink-0" title={collapsed ? "Buka sidebar" : "Tutup sidebar"}>
-          <span className="material-symbols-outlined text-[22px]">menu</span>
+          <Menu className="w-5 h-5" />
         </button>
         <span className="md:hidden font-black tracking-tight text-primary text-[16px] mx-auto">{title}</span>
         <span className="hidden md:block font-semibold text-on-surface text-[15px]">{title}</span>
@@ -61,17 +60,15 @@ export default function TopBar({ collapsed, onToggle, title = "Palembang Siaga B
                 className="p-2 rounded-full hover:bg-surface-container transition-colors text-on-surface-variant relative"
                 title={isAdminPage ? "Kembali ke Aplikasi Publik" : "Masuk Panel Admin"}
               >
-                <span className="material-symbols-outlined text-[22px]">
-                  {isAdminPage ? "public" : "admin_panel_settings"}
-                </span>
+                {isAdminPage ? <Globe className="w-5 h-5" /> : <Shield className="w-5 h-5" />}
               </Link>
             )}
             <Link href="/notifikasi" className="p-2 rounded-full hover:bg-surface-container transition-colors text-on-surface-variant relative" title="Notifikasi">
-              <span className="material-symbols-outlined text-[22px]">notifications</span>
+              <Bell className="w-5 h-5" />
               {notifDot && <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full" />}
             </Link>
             <Link href="/profil" className="p-2 rounded-full hover:bg-surface-container transition-colors text-on-surface-variant" title="Profil">
-              <span className="material-symbols-outlined text-[22px]">account_circle</span>
+              <UserCircle className="w-5 h-5" />
             </Link>
           </>
         )}

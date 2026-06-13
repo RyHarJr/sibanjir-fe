@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { api, User } from "@/lib/api";
 import { useConfirm } from "@/components/ui/ConfirmProvider";
 import { toast } from "react-hot-toast";
+import { Mail, UserCog } from "lucide-react";
 
 type AdminUser = User & { _count: { reports: number; verifications: number } };
 
@@ -74,7 +75,7 @@ export default function AdminPengguna() {
                       <td className="p-4">
                         <div className="font-semibold text-on-surface block mb-1">{u.name}</div>
                         <div className="text-[12px] text-on-surface-variant flex items-center gap-2">
-                          <span className="material-symbols-outlined text-[14px]">mail</span>
+                          <Mail className="w-3.5 h-3.5" />
                           {u.email}
                         </div>
                       </td>
@@ -93,7 +94,7 @@ export default function AdminPengguna() {
                       </td>
                       <td className="p-4 w-full flex items-center justify-end gap-2">
                         <button onClick={() => handleRoleChange(u.id, u.role)} className="px-3 py-1.5 bg-surface text-on-surface-variant border border-outline-variant hover:bg-surface-container transition-colors text-[12px] font-semibold rounded-lg flex items-center gap-1">
-                          <span className="material-symbols-outlined text-[14px]">manage_accounts</span>
+                          <UserCog className="w-3.5 h-3.5" />
                           {u.role === 'admin' ? 'Jadikan User' : 'Jadikan Admin'}
                         </button>
                       </td>

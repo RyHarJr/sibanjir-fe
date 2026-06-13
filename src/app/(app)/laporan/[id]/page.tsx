@@ -5,9 +5,10 @@ import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import BottomNav from "@/components/BottomNav";
-import { api, FloodReportDetail, timeAgo, roadAccessLabel } from "@/lib/api";
+import { api, FloodReportDetail, timeAgo, roadAccessLabel, resolveImageUrl } from "@/lib/api";
 import { useAuth } from "@/lib/AuthContext";
 import { toast } from "react-hot-toast";
+import { AlertCircle, ArrowLeft, AlertTriangle, Clock, MapPin, User, ThumbsUp, ThumbsDown, AlertOctagon, Car, Waves, Eye, LogIn, Activity, Check, X } from "lucide-react";
 
 const STATUS_LABEL: Record<string, string> = {
   active: "Aktif", surging: "Meningkat", receded: "Sudah Surut",
@@ -101,7 +102,7 @@ export default function DetailLaporan() {
   if (error || !report) {
     return (
       <div className="bg-background text-on-background min-h-screen pb-24 flex flex-col items-center justify-center">
-        <span className="material-symbols-outlined text-[64px] text-outline-variant mb-md">error</span>
+        <AlertCircle className="w-16 h-16 text-outline-variant mb-md" />
         <p className="text-h3 font-semibold text-on-surface mb-sm">{error || "Laporan tidak ditemukan"}</p>
         <Link href="/laporan" className="text-primary font-bold">← Kembali ke Feed</Link>
         <BottomNav active="laporan" />
@@ -140,23 +141,23 @@ export default function DetailLaporan() {
         <div className="mb-lg">
           <div className="flex items-center gap-2 mb-sm">
             <Link href="/laporan" className="text-on-surface-variant hover:text-primary transition-colors">
-              <span className="material-symbols-outlined text-[20px]">arrow_back</span>
+              <ArrowLeft className="w-6 h-6" />
             </Link>
           </div>
           <div className="flex justify-between items-start mb-sm">
             <h1 className="text-h1 font-bold text-on-surface">{report.title}</h1>
             <div className={`${STATUS_COLOR[report.status] ?? "bg-outline text-white"} px-3 py-1 rounded-full text-label-bold font-bold flex items-center gap-1 shrink-0 ml-4`}>
-              <span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>warning</span>
+              <AlertTriangle className="w-4 h-4" />
               {STATUS_LABEL[report.status] ?? report.status}
             </div>
           </div>
           <p className="text-body-sm text-on-surface-variant flex items-center gap-1">
-            <span className="material-symbols-outlined text-[16px]">update</span>
+            <Clock className="w-4 h-4" />
             Update terakhir: {timeAgo(report.updatedAt)}
           </p>
           {report.address && (
             <p className="text-body-sm text-on-surface-variant flex items-center gap-1 mt-1">
-              <span className="material-symbols-outlined text-[16px]">location_on</span>
+              <MapPin className="w-4 h-4" />
               {report.address}
               {report.district && ` • ${report.district.name}`}
             </p>
@@ -171,17 +172,17 @@ export default function DetailLaporan() {
             <p className="text-body-md text-on-surface-variant leading-relaxed">{report.description}</p>
             <div className="mt-md flex items-center gap-3">
               <div className="flex items-center gap-1.5 text-body-sm text-on-surface-variant">
-                <span className="material-symbols-outlined text-[16px]">person</span>
+                <User className="w-4 h-4" />
                 Dilaporkan oleh <span className="font-semibold text-on-surface">{report.user?.name ?? "Anonim"}</span>
               </div>
               <span className="text-body-sm text-on-surface-variant">• {timeAgo(report.createdAt)}</span>
             </div>
             <div className="mt-sm flex items-center gap-2">
               <span className="inline-flex items-center px-2 py-1 rounded bg-primary-container/10 text-primary text-label-bold font-bold gap-1">
-                <span className="material-symbols-outlined text-[14px]">thumb_up</span> {confirms}
+                <ThumbsUp className="w-3.5 h-3.5" /> {confirms}
               </span>
               <span className="inline-flex items-center px-2 py-1 rounded bg-error-container text-on-error-container text-label-bold font-bold gap-1">
-                <span className="material-symbols-outlined text-[14px]">thumb_down</span> {rejects}
+                <ThumbsDown className="w-3.5 h-3.5" /> {rejects}
               </span>
               <span className="text-body-sm text-on-surface-variant ml-2">
                 Skor kepercayaan: <span className="font-bold text-on-surface">{Number(report.confidenceScore).toFixed(1)}%</span>
@@ -200,21 +201,21 @@ export default function DetailLaporan() {
               <div className="space-y-sm">
                 <div className="flex justify-between items-center border-b border-outline-variant/20 pb-sm">
                   <span className="text-body-sm text-on-surface-variant flex items-center gap-2">
-                    <span className="material-symbols-outlined text-[18px]">emergency</span>
+                    <AlertOctagon className="w-4 h-4 shrink-0" />
                     Tingkat Keparahan
                   </span>
                   <span className="text-label-bold font-bold px-2 py-1 rounded text-on-surface">{SEVERITY_LABEL[report.severityLevel] ?? report.severityLevel}</span>
                 </div>
                 <div className="flex justify-between items-center border-b border-outline-variant/20 pb-sm">
                   <span className="text-body-sm text-on-surface-variant flex items-center gap-2">
-                    <span className="material-symbols-outlined text-[18px]">directions_car</span>
+                    <Car className="w-4 h-4 shrink-0" />
                     Akses Kendaraan
                   </span>
                   <span className={`text-label-bold font-bold px-2 py-1 rounded ${roadAccessColor(report.roadAccess)}`}>{roadAccessValue(report.roadAccess)}</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-body-sm text-on-surface-variant flex items-center gap-2">
-                    <span className="material-symbols-outlined text-[18px]">waves</span>
+                    <Waves className="w-4 h-4 shrink-0" />
                     Arus Air
                   </span>
                   <span className="text-label-bold font-bold px-2 py-1 rounded text-on-surface">{CURRENT_LABEL[report.waterCurrent] ?? report.waterCurrent}</span>
@@ -230,7 +231,7 @@ export default function DetailLaporan() {
                   disabled={voting}
                   className="w-full bg-primary text-on-primary text-label-bold font-bold py-3 rounded-lg flex items-center justify-center gap-2 hover:bg-primary-container hover:text-on-primary-container transition-colors disabled:opacity-60"
                 >
-                  <span className="material-symbols-outlined text-[18px]">visibility</span>
+                  <Eye className="w-5 h-5" />
                   {voting ? "Memproses..." : "Saya lihat banjir ini"}
                 </button>
                 <div className="grid grid-cols-2 gap-sm">
@@ -253,7 +254,7 @@ export default function DetailLaporan() {
             )}
             {!user && (
               <Link href="/login" className="bg-surface rounded-xl p-md shadow-card border border-outline-variant/30 flex items-center justify-center gap-2 text-primary font-bold hover:bg-surface-container transition-colors">
-                <span className="material-symbols-outlined text-[18px]">login</span>
+                <LogIn className="w-5 h-5" />
                 Login untuk verifikasi
               </Link>
             )}
@@ -266,7 +267,7 @@ export default function DetailLaporan() {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-sm">
                 {report.photoUrl && (
                   <div className="aspect-square bg-surface-variant rounded-lg overflow-hidden relative group">
-                    <Image src={report.photoUrl} alt="Foto laporan" fill className="object-cover transition-transform group-hover:scale-105" unoptimized />
+                    <Image src={resolveImageUrl(report.photoUrl)!} alt="Foto laporan" fill className="object-cover transition-transform group-hover:scale-105" unoptimized />
                     <div className="absolute bottom-2 right-2 bg-inverse-surface/80 text-inverse-on-surface text-[10px] px-1.5 py-0.5 rounded backdrop-blur-sm">
                       Foto Utama
                     </div>
@@ -274,7 +275,7 @@ export default function DetailLaporan() {
                 )}
                 {report.photos.map((photo) => (
                   <div key={photo.id} className="aspect-square bg-surface-variant rounded-lg overflow-hidden relative group">
-                    <Image src={photo.imageUrl} alt="Foto banjir" fill className="object-cover transition-transform group-hover:scale-105" unoptimized />
+                    <Image src={resolveImageUrl(photo.imageUrl)!} alt="Foto banjir" fill className="object-cover transition-transform group-hover:scale-105" unoptimized />
                     <div className="absolute bottom-2 right-2 bg-inverse-surface/80 text-inverse-on-surface text-[10px] px-1.5 py-0.5 rounded backdrop-blur-sm">
                       {timeAgo(photo.createdAt)}
                     </div>
@@ -289,7 +290,7 @@ export default function DetailLaporan() {
             <h2 className="text-h2 font-bold text-on-surface mb-md">Timeline Laporan</h2>
             {report.updates.length === 0 && report.verifications.length === 0 ? (
               <div className="text-center py-lg text-on-surface-variant">
-                <span className="material-symbols-outlined text-[40px] block mb-sm">timeline</span>
+                <Activity className="w-10 h-10 mb-sm mx-auto block" />
                 <p className="text-body-md">Belum ada update untuk laporan ini</p>
               </div>
             ) : (
@@ -298,7 +299,7 @@ export default function DetailLaporan() {
                 {report.updates.map((upd) => (
                   <div key={upd.id} className="relative">
                     <div className="absolute -left-[31px] bg-primary rounded-full p-1 border-4 border-surface">
-                      <span className="material-symbols-outlined text-[14px] text-on-primary">report</span>
+                      <AlertCircle className="w-3.5 h-3.5 text-on-primary" />
                     </div>
                     <div className="bg-surface rounded-lg p-sm shadow-sm border border-outline-variant/20 ml-2">
                       <div className="flex justify-between items-start mb-xs">
@@ -321,9 +322,7 @@ export default function DetailLaporan() {
                 {report.verifications.map((v) => (
                   <div key={v.id} className="relative">
                     <div className={`absolute -left-[31px] ${v.vote === "confirm" ? "bg-primary" : "bg-error"} rounded-full p-1 border-4 border-surface`}>
-                      <span className="material-symbols-outlined text-[14px] text-white">
-                        {v.vote === "confirm" ? "check" : "close"}
-                      </span>
+                      {v.vote === "confirm" ? <Check className="text-white w-3.5 h-3.5" /> : <X className="text-white w-3.5 h-3.5" />}
                     </div>
                     <div className="bg-surface rounded-lg p-sm shadow-sm border border-outline-variant/20 ml-2">
                       <div className="flex justify-between items-start mb-xs">

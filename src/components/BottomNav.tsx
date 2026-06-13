@@ -1,15 +1,16 @@
 "use client";
 import Link from "next/link";
 import { useAuth } from "@/lib/AuthContext";
+import { Map, List, PlusSquare, Route, Cloud } from "lucide-react";
 
 export default function BottomNav({ active }: { active?: string }) {
   const { user } = useAuth();
   const allItems = [
-    { key: "dashboard", icon: "map", label: "Dashboard", href: "/dashboard" },
-    { key: "laporan", icon: "view_headline", label: "Laporan", href: "/laporan" },
-    { key: "buat", icon: "add_box", label: "Buat", href: "/buat-laporan" },
-    { key: "rute", icon: "route", label: "Rute", href: "/rute" },
-    { key: "cuaca", icon: "partly_cloudy_day", label: "Cuaca", href: "/cuaca" },
+    { key: "dashboard", icon: Map, label: "Dashboard", href: "/dashboard" },
+    { key: "laporan", icon: List, label: "Laporan", href: "/laporan" },
+    { key: "buat", icon: PlusSquare, label: "Buat", href: "/buat-laporan" },
+    { key: "rute", icon: Route, label: "Rute", href: "/rute" },
+    { key: "cuaca", icon: Cloud, label: "Cuaca", href: "/cuaca" },
   ] as const;
 
   const items = user ? allItems : allItems.filter(i => i.key !== "buat");
@@ -28,12 +29,7 @@ export default function BottomNav({ active }: { active?: string }) {
                 : "text-slate-500 hover:text-primary"
             }`}
           >
-            <span
-              className="material-symbols-outlined mb-1 text-[24px]"
-              style={isActive ? { fontVariationSettings: "'FILL' 1" } : undefined}
-            >
-              {item.icon}
-            </span>
+            <item.icon className="mb-1 w-6 h-6" />
             {item.label}
           </Link>
         );

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/lib/AuthContext";
 import { api, AdminStats, timeAgo, severityColor, roadAccessLabel } from "@/lib/api";
+import { BellRing, Droplet, Users, CheckCircle, AlertOctagon, MapPin, Eye } from "lucide-react";
 
 export default function AdminDashboard() {
   const { user, loading: authLoading } = useAuth();
@@ -57,7 +58,7 @@ export default function AdminDashboard() {
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
           <div className="bg-surface-container-lowest p-md rounded-xl ambient-shadow-sm border-l-[4px] border-primary flex flex-col justify-between">
             <div className="flex items-center gap-2 mb-2 text-on-surface-variant">
-              <span className="material-symbols-outlined text-[20px] text-primary">add_alert</span>
+              <BellRing className="w-5 h-5 text-primary" />
               <span className="text-label-bold font-bold uppercase tracking-wider">Total Laporan</span>
             </div>
             <div className="text-h1 font-bold text-on-surface">{stats.totalReports}</div>
@@ -65,7 +66,7 @@ export default function AdminDashboard() {
           
           <div className="bg-surface-container-lowest p-md rounded-xl ambient-shadow-sm border-l-[4px] border-error flex flex-col justify-between">
             <div className="flex items-center gap-2 mb-2 text-on-surface-variant">
-              <span className="material-symbols-outlined text-[20px] text-error">water_drop</span>
+              <Droplet className="w-5 h-5 text-error" />
               <span className="text-label-bold font-bold uppercase tracking-wider">Laporan Aktif</span>
             </div>
             <div className="text-h1 font-bold text-on-surface">{stats.activeReports}</div>
@@ -73,7 +74,7 @@ export default function AdminDashboard() {
 
           <div className="bg-surface-container-lowest p-md rounded-xl ambient-shadow-sm border-l-[4px] border-warning flex flex-col justify-between">
             <div className="flex items-center gap-2 mb-2 text-on-surface-variant">
-              <span className="material-symbols-outlined text-[20px] text-warning">group</span>
+              <Users className="w-5 h-5 text-warning" />
               <span className="text-label-bold font-bold uppercase tracking-wider">Total Pengguna</span>
             </div>
             <div className="text-h1 font-bold text-on-surface">{stats.totalUsers}</div>
@@ -81,7 +82,7 @@ export default function AdminDashboard() {
 
           <div className="bg-surface-container-lowest p-md rounded-xl ambient-shadow-sm border-l-[4px] border-success flex flex-col justify-between">
             <div className="flex items-center gap-2 mb-2 text-on-surface-variant">
-              <span className="material-symbols-outlined text-[20px] text-success">verified</span>
+              <CheckCircle className="w-5 h-5 text-success" />
               <span className="text-label-bold font-bold uppercase tracking-wider">Verifikasi Warga</span>
             </div>
             <div className="text-h1 font-bold text-on-surface">{stats.totalVerifications}</div>
@@ -91,7 +92,7 @@ export default function AdminDashboard() {
 
       {stats?.deepestReport && (
         <section className="bg-error-container text-on-error-container rounded-xl p-md flex items-start gap-3 ambient-shadow-sm">
-          <span className="material-symbols-outlined text-[32px] mt-1 text-error">emergency</span>
+          <AlertOctagon className="w-8 h-8 mt-1 text-error" />
           <div className="flex-1">
             <h3 className="font-bold text-label-bold tracking-wider uppercase mb-1 flex flex-wrap items-center gap-2">
               Laporan Paling Kritis (Terdalam)
@@ -139,7 +140,7 @@ export default function AdminDashboard() {
                       <td className="p-4">
                         <div className="font-semibold text-on-surface block mb-1">{r.title}</div>
                         <div className="text-[12px] text-on-surface-variant flex items-center gap-2">
-                          <span className="material-symbols-outlined text-[14px]">location_on</span>
+                          <MapPin className="w-3.5 h-3.5" />
                           {r.district?.name ?? "Tidak diketahui"}
                           <span className="opacity-50">•</span>
                           {timeAgo(r.createdAt)}
@@ -155,7 +156,7 @@ export default function AdminDashboard() {
                       </td>
                       <td className="p-4">
                         <Link href={`/laporan/${r.id}`} className="px-3 py-1.5 bg-primary-container text-on-primary-container border border-primary hover:bg-primary hover:text-on-primary transition-colors text-[12px] font-semibold rounded-lg flex items-center justify-center gap-1 w-max">
-                          <span className="material-symbols-outlined text-[14px]">visibility</span>
+                          <Eye className="w-3.5 h-3.5" />
                           Lihat
                         </Link>
                       </td>

@@ -4,6 +4,7 @@ import { useState, useRef, useCallback, useEffect } from "react";
 import BottomNav from "@/components/BottomNav";
 import SafeRouteMapClient from "@/components/SafeRouteMapClient";
 import { api, SafeRouteData } from "@/lib/api";
+import { X, Navigation, Calendar, Locate, CheckCircle, MapPin, ArrowUpDown, Hourglass, Search, AlertCircle, Route, AlertTriangle, Droplet, Waves, Info } from "lucide-react";
 
 /* ── Types ─────────────────────────────────────────────────────────────────── */
 interface GeoSuggestion {
@@ -362,8 +363,8 @@ export default function SafeRoutePage() {
           }`}
           title={sidebarOpen ? "Tutup panel" : "Buka panel navigasi"}
         >
-          <span className="material-symbols-outlined text-[20px] text-primary">
-            {sidebarOpen ? "close" : "directions"}
+          <span className="text-[20px] text-primary flex items-center justify-center">
+            {sidebarOpen ? <X className="w-5 h-5" /> : <Navigation className="w-5 h-5" />}
           </span>
           {!sidebarOpen && (
             <span className="text-label-bold font-bold text-[12px] tracking-wide hidden md:inline">NAVIGASI</span>
@@ -381,7 +382,7 @@ export default function SafeRoutePage() {
 
             {/* ── Date filter ─────────────────────────────────────────── */}
             <div className="flex items-center gap-1.5 overflow-x-auto hide-scrollbar -mt-1">
-              <span className="material-symbols-outlined text-[16px] text-on-surface-variant flex-shrink-0">calendar_month</span>
+              <Calendar className="w-4 h-4 text-on-surface-variant flex-shrink-0" />
               <button onClick={() => setRange(today, today)} className={`whitespace-nowrap px-2.5 py-1 rounded-md text-[11px] font-semibold border transition-colors ${dateFrom === today && dateTo === today ? "bg-primary text-on-primary border-primary" : "bg-surface text-on-surface-variant border-outline-variant hover:bg-surface-container"}`}>Hari Ini</button>
               <button onClick={() => setRange(daysAgo(7), today)} className={`whitespace-nowrap px-2.5 py-1 rounded-md text-[11px] font-semibold border transition-colors ${dateFrom === daysAgo(7) && dateTo === today ? "bg-primary text-on-primary border-primary" : "bg-surface text-on-surface-variant border-outline-variant hover:bg-surface-container"}`}>7 Hari</button>
               <input type="date" value={dateFrom} onChange={e => setDateFrom(e.target.value)} max={dateTo || today} className="px-1.5 py-1 rounded-md text-[11px] border border-outline-variant bg-surface text-on-surface focus:border-primary outline-none w-[115px] flex-shrink-0" />
@@ -389,7 +390,7 @@ export default function SafeRoutePage() {
               <input type="date" value={dateTo} onChange={e => setDateTo(e.target.value)} min={dateFrom || undefined} max={today} className="px-1.5 py-1 rounded-md text-[11px] border border-outline-variant bg-surface text-on-surface focus:border-primary outline-none w-[115px] flex-shrink-0" />
               {hasDateFilter && (
                 <button onClick={() => { setDateFrom(""); setDateTo(""); }} className="p-1 rounded-md border border-outline-variant bg-surface text-error hover:bg-error-container transition-colors flex-shrink-0" title="Reset filter">
-                  <span className="material-symbols-outlined text-[14px]">close</span>
+                  <X className="w-3.5 h-3.5" />
                 </button>
               )}
             </div>
@@ -399,9 +400,7 @@ export default function SafeRoutePage() {
               {/* Origin */}
               <div className="relative">
                 <div className="flex items-center gap-sm bg-surface p-sm rounded border border-outline-variant focus-within:border-primary focus-within:ring-1 ring-primary transition-all">
-                  <span className="material-symbols-outlined text-secondary text-[20px]">
-                    my_location
-                  </span>
+                  <Locate className="w-5 h-5 text-secondary" />
                   <input
                     type="text"
                     placeholder="Masukkan lokasi awal..."
@@ -411,9 +410,7 @@ export default function SafeRoutePage() {
                     className="w-full bg-transparent border-none outline-none text-body-md text-on-surface placeholder:text-on-surface-variant/50"
                   />
                   {originCoords && (
-                    <span className="material-symbols-outlined text-[18px] text-green-600" style={{ fontVariationSettings: "'FILL' 1" }}>
-                      check_circle
-                    </span>
+                    <CheckCircle className="w-5 h-5 text-green-600" />
                   )}
                 </div>
                 {/* Origin suggestions dropdown */}
@@ -425,9 +422,7 @@ export default function SafeRoutePage() {
                         onClick={() => selectOrigin(s)}
                         className="w-full text-left px-3 py-2.5 text-body-sm hover:bg-surface-container-high transition-colors flex items-start gap-2 border-b border-outline-variant/30 last:border-b-0"
                       >
-                        <span className="material-symbols-outlined text-[16px] text-secondary mt-0.5 flex-shrink-0">
-                          location_on
-                        </span>
+                        <MapPin className="w-4 h-4 text-secondary mt-0.5 flex-shrink-0" />
                         <span className="text-on-surface line-clamp-2">{s.display_name}</span>
                       </button>
                     ))}
@@ -443,15 +438,13 @@ export default function SafeRoutePage() {
                 onClick={swapLocations}
                 className="absolute right-md top-[50%] -translate-y-1/2 w-[32px] h-[32px] bg-surface rounded-full flex items-center justify-center border border-outline-variant hover:bg-surface-container-high transition-colors z-10 shadow-sm text-secondary active:scale-90"
               >
-                <span className="material-symbols-outlined text-[18px]">swap_vert</span>
+                <ArrowUpDown className="w-4 h-4" />
               </button>
 
               {/* Destination */}
               <div className="relative">
                 <div className="flex items-center gap-sm bg-surface p-sm rounded border border-outline-variant focus-within:border-primary focus-within:ring-1 ring-primary transition-all z-10">
-                  <span className="material-symbols-outlined text-primary text-[20px]">
-                    location_on
-                  </span>
+                  <MapPin className="w-5 h-5 text-primary" />
                   <input
                     type="text"
                     placeholder="Masukkan tujuan..."
@@ -461,9 +454,7 @@ export default function SafeRoutePage() {
                     className="w-full bg-transparent border-none outline-none text-body-md text-on-surface placeholder:text-on-surface-variant/50"
                   />
                   {destCoords && (
-                    <span className="material-symbols-outlined text-[18px] text-green-600" style={{ fontVariationSettings: "'FILL' 1" }}>
-                      check_circle
-                    </span>
+                    <CheckCircle className="w-5 h-5 text-green-600" />
                   )}
                 </div>
                 {/* Destination suggestions dropdown */}
@@ -475,9 +466,7 @@ export default function SafeRoutePage() {
                         onClick={() => selectDest(s)}
                         className="w-full text-left px-3 py-2.5 text-body-sm hover:bg-surface-container-high transition-colors flex items-start gap-2 border-b border-outline-variant/30 last:border-b-0"
                       >
-                        <span className="material-symbols-outlined text-[16px] text-primary mt-0.5 flex-shrink-0">
-                          location_on
-                        </span>
+                        <MapPin className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
                         <span className="text-on-surface line-clamp-2">{s.display_name}</span>
                       </button>
                     ))}
@@ -493,8 +482,8 @@ export default function SafeRoutePage() {
                 disabled={isLocating}
                 className="flex-1 flex items-center justify-center gap-xs bg-surface-container-high text-on-surface-variant text-body-sm font-medium py-2 px-3 rounded-lg border border-outline-variant hover:bg-surface-container transition-colors disabled:opacity-50"
               >
-                <span className="material-symbols-outlined text-[18px]">
-                  {isLocating ? "hourglass_top" : "gps_fixed"}
+                <span className="flex items-center justify-center">
+                  {isLocating ? <Hourglass className="w-4 h-4" /> : <Locate className="w-4 h-4" />}
                 </span>
                 {isLocating ? "Mencari..." : "Lokasi Saya"}
               </button>
@@ -503,7 +492,7 @@ export default function SafeRoutePage() {
                 disabled={!canSearch}
                 className="flex-[2] flex items-center justify-center gap-xs bg-primary text-on-primary text-body-sm font-semibold py-2 px-4 rounded-lg shadow-sm hover:bg-on-primary-fixed-variant transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
               >
-                <span className="material-symbols-outlined text-[18px]">search</span>
+                <Search className="w-4 h-4" />
                 {isLoading ? "Menghitung..." : "Cari Rute Aman"}
               </button>
             </div>
@@ -511,7 +500,7 @@ export default function SafeRoutePage() {
             {/* ── Error message ─────────────────────────────────────────── */}
             {error && (
               <div className="bg-error-container text-on-error-container text-body-sm p-sm rounded-lg flex items-center gap-xs">
-                <span className="material-symbols-outlined text-[18px]">error</span>
+                <AlertCircle className="w-4 h-4" />
                 {error}
               </div>
             )}
@@ -522,7 +511,7 @@ export default function SafeRoutePage() {
             {routeData && (
               <>
                 <h3 className="text-h3 font-semibold text-on-surface-variant flex items-center gap-xs">
-                  <span className="material-symbols-outlined text-[20px]">alt_route</span>
+                  <Route className="w-5 h-5" />
                   Pilihan Rute
                 </h3>
 
@@ -535,11 +524,7 @@ export default function SafeRoutePage() {
                         ? "bg-amber-50 text-amber-800 border-amber-200"
                         : "bg-red-50 text-red-800 border-red-200"
                   }`}>
-                    <span className="material-symbols-outlined text-[18px] flex-shrink-0 mt-[1px]"
-                      style={{ fontVariationSettings: "'FILL' 1" }}
-                    >
-                      {routeData.safeRoute.isSafe ? "check_circle" : routeData.safeRoute.isDetour ? "detour" : "flood"}
-                    </span>
+                    {routeData.safeRoute.isSafe ? <CheckCircle className="w-4 h-4 flex-shrink-0 mt-[1px]" /> : routeData.safeRoute.isDetour ? <Route className="w-4 h-4 flex-shrink-0 mt-[1px]" /> : <Droplet className="w-4 h-4 flex-shrink-0 mt-[1px]" />}
                     {routeData.warningMessage}
                   </div>
                 )}
@@ -552,17 +537,12 @@ export default function SafeRoutePage() {
                       <div className="flex flex-col gap-[2px]">
                         <div className="flex items-center gap-xs flex-wrap">
                           <span className="text-label-bold font-bold text-primary flex items-center gap-xs">
-                            <span
-                              className="material-symbols-outlined text-[16px]"
-                              style={{ fontVariationSettings: "'FILL' 1" }}
-                            >
-                              verified
-                            </span>
+                            <CheckCircle className="w-4 h-4" />
                             RUTE AMAN
                           </span>
                           {safe.isDetour && (
                             <span className="bg-amber-100 text-amber-800 border border-amber-300 px-2 py-[2px] rounded-full text-[9px] font-bold tracking-wide flex items-center gap-[3px]">
-                              <span className="material-symbols-outlined text-[11px]">alt_route</span>
+                              <Route className="w-3 h-3" />
                               DETOUR
                             </span>
                           )}
@@ -582,12 +562,12 @@ export default function SafeRoutePage() {
                     )}
                     <div className="mt-xs flex gap-sm flex-wrap">
                       <span className={`px-2 py-1 rounded-lg text-label-bold font-bold text-[10px] flex items-center gap-[4px] border ${safe.isSafe ? "bg-green-100 text-green-800 border-green-300" : "bg-surface/50 text-on-primary-container border-primary/20"}`}>
-                        <span className="material-symbols-outlined text-[14px]">{safe.isSafe ? "check_circle" : "water_drop"}</span>
+                        {safe.isSafe ? <CheckCircle className="w-3.5 h-3.5" /> : <Droplet className="w-3.5 h-3.5" />}
                         {safe.isSafe ? "BEBAS BANJIR" : "SEMINIMAL MUNGKIN BANJIR"}
                       </span>
                       {safe.nearbyFloods && safe.nearbyFloods.length > 0 && (
                         <span className="bg-amber-100 text-amber-800 border border-amber-300 px-2 py-1 rounded-lg text-[10px] font-bold flex items-center gap-[4px]">
-                          <span className="material-symbols-outlined text-[12px]">warning</span>
+                          <Info className="w-3 h-3" />
                           {safe.nearbyFloods.length} titik banjir di sekitar rute
                         </span>
                       )}
@@ -603,7 +583,7 @@ export default function SafeRoutePage() {
                     <div className="flex justify-between items-start">
                       <div className="flex flex-col">
                         <span className="text-label-bold font-bold text-error flex items-center gap-xs">
-                          <span className="material-symbols-outlined text-[16px]">warning</span>
+                          <AlertCircle className="w-4 h-4" />
                           TERDAMPAK BANJIR
                         </span>
                         <span className="text-h2 font-bold mt-xs text-on-error-container">
@@ -625,7 +605,7 @@ export default function SafeRoutePage() {
                           key={i}
                           className="bg-error/10 text-error px-2 py-1 rounded-lg text-label-bold font-bold text-[10px] flex items-center gap-[4px] border border-error/20"
                         >
-                          <span className="material-symbols-outlined text-[14px]">waves</span>
+                          <Waves className="w-3.5 h-3.5" />
                           GENANGAN {f.depth}
                         </span>
                       ))}
@@ -636,7 +616,7 @@ export default function SafeRoutePage() {
                 {/* ── No flooded alternative ───────────────────────────── */}
                 {!flooded && safe && (
                   <div className="bg-surface-container text-on-surface-variant p-md rounded-xl border border-outline-variant text-body-sm flex items-center gap-sm">
-                    <span className="material-symbols-outlined text-[20px] text-primary">info</span>
+                    <Info className="w-5 h-5 text-primary" />
                     Hanya 1 rute ditemukan. Tidak ada rute alternatif untuk dibandingkan.
                   </div>
                 )}
@@ -646,12 +626,7 @@ export default function SafeRoutePage() {
                   onClick={startNavigation}
                   className="w-full mt-sm bg-primary text-on-primary text-h3 font-semibold py-sm rounded-full shadow-md flex items-center justify-center gap-sm hover:bg-on-primary-fixed-variant transition-colors active:scale-[0.97]"
                 >
-                  <span
-                    className="material-symbols-outlined"
-                    style={{ fontVariationSettings: "'FILL' 1" }}
-                  >
-                    navigation
-                  </span>
+                  <Navigation className="w-5 h-5" />
                   Mulai Navigasi
                 </button>
 
@@ -667,9 +642,7 @@ export default function SafeRoutePage() {
             {/* ── Empty state ──────────────────────────────────────────── */}
             {!routeData && !isLoading && !error && (
               <div className="flex-1 flex flex-col items-center justify-center text-on-surface-variant py-8 gap-3">
-                <span className="material-symbols-outlined text-[48px] opacity-30">
-                  route
-                </span>
+                <Route className="w-12 h-12 opacity-30" />
                 <p className="text-body-sm text-center opacity-60 max-w-[250px]">
                   Masukkan lokasi awal dan tujuan, lalu tekan <strong>Cari Rute Aman</strong> untuk menemukan jalan yang aman dari banjir.
                 </p>

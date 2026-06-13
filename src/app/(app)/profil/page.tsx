@@ -6,6 +6,7 @@ import Link from "next/link";
 import BottomNav from "@/components/BottomNav";
 import { api, User, FloodReport, timeAgo } from "@/lib/api";
 import { useAuth } from "@/lib/AuthContext";
+import { Mail, Phone, CheckCircle, Badge, Shield, LogOut, FileText, Award, MapPin, Droplet } from "lucide-react";
 
 const STATUS_BORDER: Record<string, string> = { active: "bg-error", surging: "bg-warning", receded: "bg-secondary" };
 const SIAGA: Record<string, { label: string; cls: string }> = {
@@ -68,34 +69,34 @@ export default function ProfilPengguna() {
             <div className="flex-1 space-y-sm">
               <h1 className="text-h1 font-bold text-on-surface">{profile.name}</h1>
               <p className="text-body-md text-on-surface-variant flex items-center justify-center sm:justify-start gap-xs">
-                <span className="material-symbols-outlined text-[18px]">mail</span>
+                <Mail className="w-4 h-4" />
                 {profile.email}
               </p>
               {profile.phone && (
                 <p className="text-body-md text-on-surface-variant flex items-center justify-center sm:justify-start gap-xs">
-                  <span className="material-symbols-outlined text-[18px]">phone</span>
+                  <Phone className="w-4 h-4" />
                   {profile.phone}
                 </p>
               )}
               <div className="pt-sm flex flex-wrap gap-xs justify-center sm:justify-start">
                 {profile.reputationScore >= 500 && (
                   <span className="inline-flex items-center gap-xs px-3 py-1 rounded-full bg-primary-container/10 text-primary-container text-label-bold font-bold">
-                    <span className="material-symbols-outlined text-[14px]">verified</span>Pelapor Terpercaya
+                    <CheckCircle className="w-3.5 h-3.5" />Pelapor Terpercaya
                   </span>
                 )}
                 <span className="inline-flex items-center gap-xs px-3 py-1 rounded-full bg-tertiary-container/10 text-tertiary-container text-label-bold font-bold capitalize">
-                  <span className="material-symbols-outlined text-[14px]">badge</span>{profile.role}
+                  <Badge className="w-3.5 h-3.5" />{profile.role}
                 </span>
               </div>
             </div>
             <div className="flex flex-col sm:flex-row items-center gap-2 mt-sm sm:mt-0 shrink-0 w-full sm:w-auto">
               {profile.role === "admin" && (
                 <Link href="/admin/dashboard" className="w-full sm:w-auto px-4 py-2 rounded-lg bg-surface-container text-on-surface-variant text-label-bold font-bold hover:bg-primary-container hover:text-on-primary-container transition-colors flex items-center justify-center gap-1">
-                  <span className="material-symbols-outlined text-[18px]">admin_panel_settings</span>Admin Panel
+                  <Shield className="w-4 h-4" />Admin Panel
                 </Link>
               )}
               <button onClick={logout} className="w-full sm:w-auto px-4 py-2 rounded-lg border border-error text-error text-label-bold font-bold hover:bg-error-container transition-colors flex items-center justify-center gap-1">
-                <span className="material-symbols-outlined text-[18px]">logout</span>Keluar
+                <LogOut className="w-4 h-4" />Keluar
               </button>
             </div>
           </div>
@@ -103,17 +104,17 @@ export default function ProfilPengguna() {
           {/* Stats */}
           <div className="md:col-span-4 grid grid-cols-3 gap-sm md:gap-md">
             <div className="bg-surface-container-lowest rounded-xl p-sm md:p-md shadow-card border border-outline-variant flex flex-col justify-center items-center text-center space-y-xs">
-              <span className="material-symbols-outlined text-primary text-2xl md:text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>assignment</span>
+              <FileText className="w-6 h-6 md:w-8 md:h-8 text-primary" />
               <span className="text-h3 md:text-h2 font-bold text-on-surface">{profile._count.reports}</span>
               <span className="text-body-sm text-on-surface-variant max-md:text-[10px]">Laporan</span>
             </div>
             <div className="bg-surface-container-lowest rounded-xl p-sm md:p-md shadow-card border border-outline-variant flex flex-col justify-center items-center text-center space-y-xs">
-              <span className="material-symbols-outlined text-secondary text-2xl md:text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
+              <CheckCircle className="w-6 h-6 md:w-8 md:h-8 text-secondary" />
               <span className="text-h3 md:text-h2 font-bold text-on-surface">{profile._count.verifications}</span>
               <span className="text-body-sm text-on-surface-variant max-md:text-[10px]">Verifikasi</span>
             </div>
             <div className="bg-surface-container-lowest rounded-xl p-sm md:p-md shadow-card border border-outline-variant flex flex-col justify-center items-center text-center space-y-xs">
-              <span className="material-symbols-outlined text-tertiary text-2xl md:text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>military_tech</span>
+              <Award className="w-6 h-6 md:w-8 md:h-8 text-tertiary" />
               <span className="text-h3 md:text-h2 font-bold text-on-surface">{profile.reputationScore}</span>
               <span className="text-body-sm text-on-surface-variant max-md:text-[10px]">Reputasi</span>
             </div>
@@ -128,7 +129,7 @@ export default function ProfilPengguna() {
           </div>
           {reports.length === 0 ? (
             <div className="text-center py-xl text-on-surface-variant">
-              <span className="material-symbols-outlined text-[48px] block mb-sm">description</span>
+              <FileText className="w-12 h-12 mb-sm mx-auto block" />
               <p className="text-body-lg">Belum ada laporan</p>
               <Link href="/buat-laporan" className="text-primary font-bold mt-sm inline-block">Buat laporan pertama →</Link>
             </div>
@@ -148,12 +149,12 @@ export default function ProfilPengguna() {
                       <div>
                         <h3 className="text-h3 font-semibold text-on-surface">{r.title}</h3>
                         <p className="text-body-md text-on-surface-variant flex items-center gap-xs mt-1">
-                          <span className="material-symbols-outlined text-[16px]">location_on</span>
+                          <MapPin className="w-4 h-4 ml-0.5" />
                           {r.district?.name ?? r.address ?? "—"}
                         </p>
                       </div>
                       <div className="flex items-center gap-2 pt-2 border-t border-outline-variant/30">
-                        <span className="material-symbols-outlined text-outline text-[16px]">water_drop</span>
+                        <Droplet className="w-4 h-4 ml-0.5 text-outline" />
                         <span className="text-body-sm text-outline">{r.waterDepthCm}cm • {r.status === "receded" ? "Sudah Surut" : r.status === "surging" ? "Meningkat" : "Aktif"}</span>
                       </div>
                     </div>

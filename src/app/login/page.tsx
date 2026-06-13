@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { api } from "@/lib/api";
+import { ArrowLeft, Droplets, AlertCircle, Mail, Lock, Eye, EyeOff, LogIn, ArrowRight } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -36,15 +37,13 @@ export default function LoginPage() {
       <main className="flex-1 flex flex-col items-center justify-center px-margin-mobile md:px-0 relative z-10 w-full max-w-md mx-auto py-xl">
         {/* Back to splash */}
         <Link href="/" className="self-start flex items-center gap-1 text-secondary text-body-sm font-semibold mb-xl hover:text-primary transition-colors">
-          <span className="material-symbols-outlined text-[18px]">arrow_back</span>
+          <ArrowLeft className="w-4 h-4" />
           Kembali
         </Link>
 
         {/* Logo mini */}
         <div className="w-14 h-14 bg-primary-container text-on-primary-container rounded-full flex items-center justify-center shadow-sm mb-lg">
-          <span className="material-symbols-outlined text-[28px]" style={{ fontVariationSettings: "'FILL' 1" }}>
-            water_damage
-          </span>
+          <Droplets className="w-7 h-7 fill-current" />
         </div>
 
         <h1 className="text-h1 font-bold text-primary mb-xs tracking-tight text-center">Masuk</h1>
@@ -55,7 +54,7 @@ export default function LoginPage() {
         {/* Error banner */}
         {error && (
           <div className="w-full mb-md bg-error-container text-on-error-container rounded-xl px-md py-sm flex items-center gap-2 text-body-sm">
-            <span className="material-symbols-outlined text-[18px]">error</span>
+            <AlertCircle className="w-4 h-4" />
             {error}
           </div>
         )}
@@ -67,7 +66,7 @@ export default function LoginPage() {
               Email
             </label>
             <div className="flex items-center gap-sm bg-surface-container-low border border-outline-variant rounded-xl px-md py-sm focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all">
-              <span className="material-symbols-outlined text-on-surface-variant text-[20px]">mail</span>
+              <Mail className="w-5 h-5 text-on-surface-variant" />
               <input
                 type="email"
                 placeholder="budi@email.com"
@@ -85,7 +84,7 @@ export default function LoginPage() {
               Password
             </label>
             <div className="flex items-center gap-sm bg-surface-container-low border border-outline-variant rounded-xl px-md py-sm focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all">
-              <span className="material-symbols-outlined text-on-surface-variant text-[20px]">lock</span>
+              <Lock className="w-5 h-5 text-on-surface-variant" />
               <input
                 type={showPassword ? "text" : "password"}
                 placeholder="••••••••"
@@ -99,9 +98,7 @@ export default function LoginPage() {
                 onClick={() => setShowPassword(!showPassword)}
                 className="text-on-surface-variant hover:text-on-surface transition-colors"
               >
-                <span className="material-symbols-outlined text-[20px]">
-                  {showPassword ? "visibility_off" : "visibility"}
-                </span>
+                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
               </button>
             </div>
           </div>
@@ -119,7 +116,7 @@ export default function LoginPage() {
               </>
             ) : (
               <>
-                <span className="material-symbols-outlined text-[20px]">login</span>
+                <LogIn className="w-5 h-5" />
                 Masuk
               </>
             )}
@@ -162,7 +159,7 @@ export default function LoginPage() {
           className="mt-md text-secondary font-bold text-label-bold py-2 px-4 rounded-full flex items-center gap-1.5 hover:bg-surface-variant/50 transition-colors"
         >
           Lanjut sebagai tamu
-          <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
+          <ArrowRight className="w-4 h-4" />
         </Link>
       </main>
     </div>

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { api, FloodReport, timeAgo } from "@/lib/api";
 import { useConfirm } from "@/components/ui/ConfirmProvider";
 import { toast } from "react-hot-toast";
+import { CheckCircle, Ban, MapPin, XCircle, Trash2, ArrowRight } from "lucide-react";
 
 export default function AdminLaporan() {
   const confirm = useConfirm();
@@ -90,11 +91,11 @@ export default function AdminLaporan() {
                       <td className="p-4">
                         <div className="font-semibold text-on-surface block mb-1">
                           {r.title}
-                          {r.confidenceScore >= 90 && <span className="ml-2 px-1.5 py-0.5 bg-success-container text-on-success-container rounded text-[10px] uppercase font-bold tracking-wider inline-flex items-center align-middle"><span className="material-symbols-outlined text-[12px] mr-0.5">verified</span> Terverifikasi</span>}
-                          {r.confidenceScore <= -90 && <span className="ml-2 px-1.5 py-0.5 bg-error-container text-on-error-container rounded text-[10px] uppercase font-bold tracking-wider inline-flex items-center align-middle"><span className="material-symbols-outlined text-[12px] mr-0.5">block</span> Ditolak</span>}
+                          {r.confidenceScore >= 90 && <span className="ml-2 px-1.5 py-0.5 bg-success-container text-on-success-container rounded text-[10px] uppercase font-bold tracking-wider inline-flex items-center align-middle"><CheckCircle className="w-3 h-3 mr-0.5" /> Terverifikasi</span>}
+                          {r.confidenceScore <= -90 && <span className="ml-2 px-1.5 py-0.5 bg-error-container text-on-error-container rounded text-[10px] uppercase font-bold tracking-wider inline-flex items-center align-middle"><Ban className="w-3 h-3 mr-0.5" /> Ditolak</span>}
                         </div>
                         <div className="text-[12px] text-on-surface-variant flex items-center gap-2">
-                          <span className="material-symbols-outlined text-[14px]">location_on</span>
+                          <MapPin className="w-3.5 h-3.5" />
                           {r.district?.name ?? "Tidak diketahui"}
                           <span className="opacity-50">•</span>
                           {timeAgo(r.createdAt)}
@@ -121,7 +122,7 @@ export default function AdminLaporan() {
                              title="Verifikasi Laporan"
                              className={`p-1.5 rounded-lg border transition-colors flex items-center justify-center ${r.confidenceScore >= 90 ? "bg-success-container/40 text-success border-success/30 cursor-not-allowed" : "bg-success text-on-success border-success hover:bg-success/90"}`}
                            >
-                             <span className="material-symbols-outlined text-[16px]">check_circle</span>
+                             <CheckCircle className="w-4 h-4" />
                            </button>
                            <button
                              onClick={() => handleAdminVerify(r.id, "reject")}
@@ -129,18 +130,18 @@ export default function AdminLaporan() {
                              title="Tolak Laporan"
                              className={`p-1.5 rounded-lg border transition-colors flex items-center justify-center ${r.confidenceScore <= -90 ? "bg-error-container/40 text-error border-error/30 cursor-not-allowed" : "bg-error text-on-error border-error hover:bg-error/90"}`}
                            >
-                             <span className="material-symbols-outlined text-[16px]">cancel</span>
+                             <XCircle className="w-4 h-4" />
                            </button>
                            <button
                              onClick={() => handleDelete(r.id)}
                              title="Hapus Permanen"
                              className="p-1.5 bg-surface text-error border border-error hover:bg-error-container transition-colors rounded-lg flex items-center justify-center"
                            >
-                             <span className="material-symbols-outlined text-[16px]">delete</span>
+                             <Trash2 className="w-4 h-4" />
                            </button>
                         </div>
                         <Link href={`/laporan/${r.id}`} className="text-[11px] font-semibold text-primary hover:underline group flex items-center">
-                          Lihat Detail <span className="material-symbols-outlined text-[14px] ml-0.5 group-hover:translate-x-0.5 transition-transform">arrow_right_alt</span>
+                          Lihat Detail <ArrowRight className="w-3.5 h-3.5 ml-0.5 group-hover:translate-x-0.5 transition-transform" />
                         </Link>
                       </td>
                     </tr>
