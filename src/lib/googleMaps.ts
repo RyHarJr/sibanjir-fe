@@ -32,7 +32,7 @@ function ensureLoaded(): Promise<void> {
     let elapsed = 0;
 
     const poll = setInterval(() => {
-      if (typeof window !== "undefined" && window.google?.maps?.importLibrary) {
+      if (typeof window !== "undefined" && typeof window.google?.maps?.importLibrary === "function") {
         clearInterval(poll);
         resolve();
         return;
