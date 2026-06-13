@@ -1,0 +1,8 @@
+﻿src/components/DashboardMapImpl.tsx(23,10): error TS1127: Invalid character.
+src/components/DashboardMapImpl.tsx(120,1): error TS1160: Unterminated template literal.
+src/components/MapPickerImpl.tsx(13,19): error TS1127: Invalid character.
+src/components/MapPickerImpl.tsx(13,20): error TS1134: Variable declaration expected.
+src/components/MapPickerImpl.tsx(104,1): error TS1005: '}' expected.
+src/components/MapPickerImpl.tsx(104,1): error TS1160: Unterminated template literal.
+src/components/SafeRouteMapImpl.tsx(12,10): error TS1127: Invalid character.
+src/components/SafeRouteMapImpl.tsx(186,1): error TS1160: Unterminated template literal.

@@ -65,25 +65,7 @@ export default function LandingPage() {
                </Link>
             </div>
             
-            {/* Hero Mockup Clean */}
-            <div className="mt-20 w-full max-w-4xl mx-auto h-[250px] md:h-[350px] bg-white rounded-t-3xl border-t border-l border-r border-outline-variant/50 flex justify-center p-4 relative overflow-hidden shadow-[0_-10px_40px_-20px_rgba(0,0,0,0.03)]">
-               {/* Mock UI Card flat */}
-               <div className="w-[90%] md:w-80 h-max bg-white rounded-2xl border border-outline-variant/60 shadow-md absolute top-12 left-1/2 -translate-x-1/2 p-5 text-left">
-                 <div className="flex items-start gap-4">
-                   <div className="w-12 h-12 rounded-full bg-error/10 text-error flex items-center justify-center flex-shrink-0">
-                     <span className="material-symbols-outlined text-[24px]" style={{fontVariationSettings:"'FILL' 1"}}>water_drop</span>
-                   </div>
-                   <div className="space-y-1">
-                     <div className="flex items-center justify-between w-full">
-                        <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-error/10 text-error uppercase">Kritis</span>
-                        <span className="text-[11px] text-on-surface-variant">Baru saja</span>
-                     </div>
-                     <h4 className="text-base font-bold text-on-surface line-clamp-1">Jl. Kol. H. Burlian</h4>
-                     <p className="text-xs text-on-surface-variant font-medium leading-relaxed">Banjir sedalam 50cm, tidak bisa dilalui kendaraan roda dua.</p>
-                   </div>
-                 </div>
-               </div>
-            </div>
+
           </div>
         </section>
 
@@ -138,7 +120,7 @@ export default function LandingPage() {
            
            <div className="border-t border-outline-variant/50 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 max-w-7xl mx-auto text-on-surface-variant text-sm font-medium">
              <div className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-[18px] text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>water_damage</span>
+                <Droplets className="w-5 h-5 text-primary fill-primary/20" />
                 <span className="font-bold tracking-tight text-on-surface">LaporBanjir © {new Date().getFullYear()}</span>
              </div>
              <div>Dibangun untuk Palembang yang lebih responsif.</div>
