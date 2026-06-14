@@ -12,7 +12,7 @@ export default function LandingPage() {
             <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-on-primary">
               <Droplets className="w-6 h-6" />
             </div>
-            <span className="font-bold text-xl tracking-tight text-primary">LaporBanjir</span>
+            <span className="font-bold text-xl tracking-tight text-primary">SiBanjir</span>
           </Link>
           
           <div className="flex items-center gap-2 sm:gap-4">
@@ -121,7 +121,7 @@ export default function LandingPage() {
            <div className="border-t border-outline-variant/50 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 max-w-7xl mx-auto text-on-surface-variant text-sm font-medium">
              <div className="flex items-center gap-2">
                 <Droplets className="w-5 h-5 text-primary fill-primary/20" />
-                <span className="font-bold tracking-tight text-on-surface">LaporBanjir © {new Date().getFullYear()}</span>
+                <span className="font-bold tracking-tight text-on-surface">SiBanjir © {new Date().getFullYear()}</span>
              </div>
              <div>Dibangun untuk Palembang yang lebih responsif.</div>
            </div>

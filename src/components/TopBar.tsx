@@ -36,7 +36,7 @@ export default function TopBar({ collapsed, onToggle, title = "Palembang Siaga B
             <div className="w-7 h-7 bg-primary-container text-on-primary-container rounded-full flex items-center justify-center flex-shrink-0">
               <Droplets className="w-4 h-4" />
             </div>
-            <span className="font-black tracking-tight text-primary text-[14px] leading-tight truncate">LaporBanjir</span>
+            <span className="font-black tracking-tight text-primary text-[14px] leading-tight truncate">SiBanjir</span>
           </Link>
         )}
       </div>

@@ -3,7 +3,7 @@ import "./globals.css";
 import { Providers } from "@/components/Providers";
 
 export const metadata: Metadata = {
-  title: "LaporBanjir Palembang",
+  title: "SiBanjir Palembang",
   description: "Pantau dan Laporkan Banjir Secara Real-Time",
 };
 
